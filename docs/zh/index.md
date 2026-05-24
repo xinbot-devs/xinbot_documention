@@ -6,7 +6,7 @@ hero:
   text: "高性能、模块化的 Minecraft 机器人框架"
   tagline: "专为无政府服务器设计的下一代架构 —— 高效、解耦、极致扩展"
   image:
-    src: /xinbot-logo.jpg
+    src: /xinbot-logo.png
     alt: Xinbot Logo
   actions:
     - theme: brand
