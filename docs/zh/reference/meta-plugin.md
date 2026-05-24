@@ -96,4 +96,4 @@ type: META_PLUGIN
 
 你可以参考官方的 [xinMetaPlugin](https://github.com/huangdihd/xinMetaPlugin) 仓库，了解一个专门为 `2b2t.xin` 服务器设计的元插件的完整实现。
 
-查看更多社区提供的元插件：[元插件列表](./meta-plugin-list.md)
+查看更多社区提供的元插件：[元插件列表](../guide/meta-plugin-list.md)
