@@ -8,4 +8,5 @@
 | :--- | :--- | :--- | :--- | :--- |
 | [xinMetaPlugin](https://github.com/huangdihd/xinMetaPlugin) | `2b2t.xin` | [huangdihd](https://github.com/huangdihd) | [GitHub](https://github.com/huangdihd/xinMetaPlugin) | 官方提供的 2b2t.xin 支持插件 |
 
+| []() | `` | [Unknown](https://github.com/Unknown) | [GitHub]() |  |
 <!-- META_PLUGIN_LIST_END -->
