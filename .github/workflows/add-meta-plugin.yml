@@ -27,10 +27,19 @@ jobs:
       - name: Update Plugin Lists
         shell: bash
         run: |
-          NAME="${{ steps.parse.outputs.plugin_name }}"
-          SERVER="${{ steps.parse.outputs.server_supported }}"
-          URL="${{ steps.parse.outputs.source_url }}"
-          DESC="${{ steps.parse.outputs.description }}"
+          # The parser outputs a JSON string in 'data'
+          DATA='${{ steps.parse.outputs.data }}'
+          
+          NAME=$(echo "$DATA" | jq -r '.plugin_name')
+          SERVER=$(echo "$DATA" | jq -r '.server_supported')
+          URL=$(echo "$DATA" | jq -r '.source_url')
+          DESC=$(echo "$DATA" | jq -r '.description')
+          
+          # Check if we got the data
+          if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
+            echo "Error: Could not parse issue data."
+            exit 1
+          fi
           
           # Extract owner from GitHub URL
           if [[ $URL =~ github\.com/([^/]+)/ ]]; then
@@ -52,12 +61,9 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "feat: add meta-plugin ${{ steps.parse.outputs.plugin_name }}"
-          title: "Add Meta-Plugin: ${{ steps.parse.outputs.plugin_name }}"
+          commit-message: "feat: add meta-plugin"
+          title: "Add Meta-Plugin"
           body: |
             This PR adds a new Meta-Plugin to the documentation based on issue #${{ github.event.issue.number }}.
-            
-            - **Plugin:** ${{ steps.parse.outputs.plugin_name }}
-            - **Source:** ${{ steps.parse.outputs.source_url }}
           branch: "add-meta-plugin-${{ github.event.issue.number }}"
           labels: "meta-plugin"
