@@ -26,14 +26,14 @@ jobs:
 
       - name: Update Plugin Lists
         shell: bash
+        env:
+          ISSUE_JSON: ${{ steps.parse.outputs.data }}
         run: |
-          # The parser outputs a JSON string in 'data'
-          DATA='${{ steps.parse.outputs.data }}'
-          
-          NAME=$(echo "$DATA" | jq -r '.plugin_name')
-          SERVER=$(echo "$DATA" | jq -r '.server_supported')
-          URL=$(echo "$DATA" | jq -r '.source_url')
-          DESC=$(echo "$DATA" | jq -r '.description')
+          # Use the environment variable which is safer for JSON strings
+          NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name')
+          SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported')
+          URL=$(echo "$ISSUE_JSON" | jq -r '.source_url')
+          DESC=$(echo "$ISSUE_JSON" | jq -r '.description')
           
           # Check if we got the data
           if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
