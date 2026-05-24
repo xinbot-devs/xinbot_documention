@@ -24,6 +24,11 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/meta_plugin_submission.yml
 
+      - name: Debug Parser Outputs
+        run: |
+          echo "All outputs from parse step:"
+          echo '${{ toJson(steps.parse.outputs) }}'
+
       - name: Update Plugin Lists
         shell: bash
         env:
