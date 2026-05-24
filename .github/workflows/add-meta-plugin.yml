@@ -30,10 +30,10 @@ jobs:
           ISSUE_JSON: ${{ steps.parse.outputs.jsonString }}
         run: |
           # Use the environment variable which is safer for JSON strings
-          NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name')
-          SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported')
-          URL=$(echo "$ISSUE_JSON" | jq -r '.source_url')
-          DESC=$(echo "$ISSUE_JSON" | jq -r '.description')
+          NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name' | tr -d '\n\r')
+          SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported' | tr -d '\n\r')
+          URL=$(echo "$ISSUE_JSON" | jq -r '.source_url' | tr -d '\n\r')
+          DESC=$(echo "$ISSUE_JSON" | jq -r '.description' | tr -d '\n\r')
           
           # Check if we got the data
           if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
@@ -53,9 +53,12 @@ jobs:
           ROW="| [$NAME]($URL) | \`$SERVER\` | [$OWNER](https://github.com/$OWNER) | [GitHub]($URL) | $DESC |"
           
           # Update English list
+          # First, remove any blank lines immediately before the marker to prevent table breaking
+          sed -i '/^$/{N;/<!-- META_PLUGIN_LIST_END -->/D;}' docs/guide/meta-plugin-list.md
           sed -i "/<!-- META_PLUGIN_LIST_END -->/i $ROW" docs/guide/meta-plugin-list.md
           
           # Update Chinese list
+          sed -i '/^$/{N;/<!-- META_PLUGIN_LIST_END -->/D;}' docs/zh/guide/meta-plugin-list.md
           sed -i "/<!-- META_PLUGIN_LIST_END -->/i $ROW" docs/zh/guide/meta-plugin-list.md
 
       - name: Create Pull Request
