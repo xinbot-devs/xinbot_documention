@@ -6,7 +6,9 @@ on:
 
 jobs:
   add-plugin:
-    if: contains(github.event.issue.labels.*.name, 'meta-plugin')
+    if: |
+      contains(github.event.issue.labels.*.name, 'meta-plugin') || 
+      startsWith(github.event.issue.title, '[Meta-Plugin]:')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
