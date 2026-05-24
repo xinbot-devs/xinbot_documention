@@ -54,12 +54,13 @@ jobs:
           ROW="| [$NAME]($URL) | \`$SERVER\` | [$OWNER](https://github.com/$OWNER) | [GitHub]($URL) | $DESC |"
           
           # Update English list
-          # First, remove any blank lines immediately before the marker to prevent table breaking
-          sed -i '/^$/{N;/<!-- META_PLUGIN_LIST_END -->/D;}' docs/guide/meta-plugin-list.md
+          # Remove any blank lines immediately before the marker to ensure the table is continuous
+          sed -i ':a;N;$!ba;s/\n\n<!-- META_PLUGIN_LIST_END -->/\n<!-- META_PLUGIN_LIST_END -->/g' docs/guide/meta-plugin-list.md
+          # Insert the new row before the marker
           sed -i "/<!-- META_PLUGIN_LIST_END -->/i $ROW" docs/guide/meta-plugin-list.md
           
           # Update Chinese list
-          sed -i '/^$/{N;/<!-- META_PLUGIN_LIST_END -->/D;}' docs/zh/guide/meta-plugin-list.md
+          sed -i ':a;N;$!ba;s/\n\n<!-- META_PLUGIN_LIST_END -->/\n<!-- META_PLUGIN_LIST_END -->/g' docs/zh/guide/meta-plugin-list.md
           sed -i "/<!-- META_PLUGIN_LIST_END -->/i $ROW" docs/zh/guide/meta-plugin-list.md
 
       - name: Create Pull Request
