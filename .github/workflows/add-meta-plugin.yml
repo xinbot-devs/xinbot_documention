@@ -65,6 +65,9 @@ jobs:
           commit-message: "feat: add meta-plugin"
           title: "Add Meta-Plugin"
           body: |
-            This PR adds a new Meta-Plugin to the documentation based on issue #${{ github.event.issue.number }}.
+            This PR adds a new Meta-Plugin to the documentation.
+            
+            Closes #${{ github.event.issue.number }}
           branch: "add-meta-plugin-${{ github.event.issue.number }}"
           labels: "meta-plugin"
+          delete-branch: true
