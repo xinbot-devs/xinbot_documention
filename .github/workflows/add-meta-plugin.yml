@@ -24,15 +24,10 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/meta_plugin_submission.yml
 
-      - name: Debug Parser Outputs
-        run: |
-          echo "All outputs from parse step:"
-          echo '${{ toJson(steps.parse.outputs) }}'
-
       - name: Update Plugin Lists
         shell: bash
         env:
-          ISSUE_JSON: ${{ steps.parse.outputs.data }}
+          ISSUE_JSON: ${{ steps.parse.outputs.jsonString }}
         run: |
           # Use the environment variable which is safer for JSON strings
           NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name')
@@ -43,6 +38,7 @@ jobs:
           # Check if we got the data
           if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
             echo "Error: Could not parse issue data."
+            echo "JSON content was: $ISSUE_JSON"
             exit 1
           fi
           
