@@ -8,6 +8,27 @@
 
 创建一个基础的 Java 项目（例如使用 Maven 或 Gradle），并引入 Xinbot 的依赖项。
 
+### Maven (pom.xml)
+
+在 `pom.xml` 中添加仓库和依赖：
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.huangdihd</groupId>
+        <artifactId>xinbot</artifactId>
+        <version>VERSION</version> <!-- 请将其替换为 GitHub Releases 中的最新版本号 -->
+    </dependency>
+</dependencies>
+```
+
 接着，在 `src/main/resources/` 目录下创建 `plugin.yml`，定义插件的基本信息：
 
 ```yaml

@@ -23,6 +23,7 @@ export default defineConfig({
               items: [
                 { text: 'Getting Started', link: '/guide/getting-started' },
                 { text: 'Usage Guide', link: '/guide/usage' },
+                { text: 'Meta-Plugin List', link: '/guide/meta-plugin-list' },
                 { text: 'Config Generator', link: '/guide/config-generator' },
                 { text: 'FAQ', link: '/guide/faq' }
               ]
@@ -88,6 +89,7 @@ export default defineConfig({
               items: [
                 { text: '快速开始', link: '/zh/guide/getting-started' },
                 { text: '使用手册', link: '/zh/guide/usage' },
+                { text: '元插件列表', link: '/zh/guide/meta-plugin-list' },
                 { text: '配置文件生成器', link: '/zh/guide/config-generator' },
                 { text: '常见问题', link: '/zh/guide/faq' }
               ]

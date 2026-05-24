@@ -95,3 +95,5 @@ type: META_PLUGIN
 *注：服务器断线处理及自动重连（Auto-Reconnect）机制由 Xinbot 核心统一接管，无需在元插件中处理。*
 
 你可以参考官方的 [xinMetaPlugin](https://github.com/huangdihd/xinMetaPlugin) 仓库，了解一个专门为 `2b2t.xin` 服务器设计的元插件的完整实现。
+
+查看更多社区提供的元插件：[元插件列表](./meta-plugin-list.md)

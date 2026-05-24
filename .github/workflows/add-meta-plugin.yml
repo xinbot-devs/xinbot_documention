@@ -1,0 +1,57 @@
+name: Add Meta-Plugin from Issue
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  add-plugin:
+    if: contains(github.event.issue.labels.*.name, 'meta-plugin')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Parse Issue Body
+        id: parse
+        uses: stefanbuck/github-issue-parser@v3
+        with:
+          template-path: .github/ISSUE_TEMPLATE/meta_plugin_submission.yml
+
+      - name: Update Plugin Lists
+        shell: bash
+        run: |
+          NAME="${{ steps.parse.outputs.plugin_name }}"
+          SERVER="${{ steps.parse.outputs.server_supported }}"
+          URL="${{ steps.parse.outputs.source_url }}"
+          DESC="${{ steps.parse.outputs.description }}"
+          
+          # Extract owner from GitHub URL
+          if [[ $URL =~ github\.com/([^/]+)/ ]]; then
+            OWNER="${BASH_REMATCH[1]}"
+          else
+            OWNER="Unknown"
+          fi
+          
+          # Prepare the table row
+          ROW="| [$NAME]($URL) | \`$SERVER\` | [$OWNER](https://github.com/$OWNER) | [GitHub]($URL) | $DESC |"
+          
+          # Update English list
+          sed -i "/<!-- META_PLUGIN_LIST_END -->/i $ROW" docs/guide/meta-plugin-list.md
+          
+          # Update Chinese list
+          sed -i "/<!-- META_PLUGIN_LIST_END -->/i $ROW" docs/zh/guide/meta-plugin-list.md
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat: add meta-plugin ${{ steps.parse.outputs.plugin_name }}"
+          title: "Add Meta-Plugin: ${{ steps.parse.outputs.plugin_name }}"
+          body: |
+            This PR adds a new Meta-Plugin to the documentation based on issue #${{ github.event.issue.number }}.
+            
+            - **Plugin:** ${{ steps.parse.outputs.plugin_name }}
+            - **Source:** ${{ steps.parse.outputs.source_url }}
+          branch: "add-meta-plugin-${{ github.event.issue.number }}"
+          labels: "meta-plugin"

@@ -8,6 +8,27 @@ We will separate the logic into two classes for better architecture: a main Plug
 
 Create a basic Java project (using Maven or Gradle) and add the Xinbot API as a dependency. 
 
+### Maven (pom.xml)
+
+Add the repository and dependency to your `pom.xml`:
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.huangdihd</groupId>
+        <artifactId>xinbot</artifactId>
+        <version>VERSION</version> <!-- Replace with the latest version from GitHub Releases -->
+    </dependency>
+</dependencies>
+```
+
 Create your `plugin.yml` in `src/main/resources/`:
 
 ```yaml
