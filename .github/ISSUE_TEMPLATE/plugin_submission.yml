@@ -1,12 +1,22 @@
 name: Plugin Submission
-description: Submit a new Regular Plugin to the Xinbot documentation list
-title: "[Plugin]: <Plugin Name>"
-labels: ["plugin", "submission"]
+description: Submit a new Plugin (Regular or Meta) to the Xinbot documentation list
+title: "[Plugin Submission]: <Plugin Name>"
+labels: ["submission"]
 body:
   - type: markdown
     attributes:
       value: |
         Thank you for contributing to the Xinbot community! Please fill out the information below so we can add your Plugin to the list.
+  - type: dropdown
+    id: plugin_type
+    attributes:
+      label: Plugin Type
+      description: Is this a Regular Plugin or a Meta-Plugin?
+      options:
+        - Regular Plugin
+        - Meta-Plugin
+    validations:
+      required: true
   - type: input
     id: plugin_name
     attributes:
@@ -14,6 +24,11 @@ body:
       placeholder: e.g., MyCoolPlugin
     validations:
       required: true
+  - type: input
+    id: server_supported
+    attributes:
+      label: Supported Servers (For Meta-Plugins Only)
+      placeholder: e.g., 2b2t.org (Leave blank if not a Meta-Plugin)
   - type: input
     id: source_url
     attributes:

@@ -12,35 +12,44 @@ permissions:
 jobs:
   add-plugin:
     if: |
-      contains(github.event.issue.labels.*.name, 'submission')
+      contains(github.event.issue.labels.*.name, 'submission') ||
+      startsWith(github.event.issue.title, '[Plugin Submission]:')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Detect Plugin Type
-        id: detect
-        shell: bash
-        run: |
-          if [[ "${{ github.event.issue.labels.*.name }}" == *"meta-plugin"* ]]; then
-            echo "type=META_PLUGIN" >> $GITHUB_OUTPUT
-            echo "template=.github/ISSUE_TEMPLATE/meta_plugin_submission.yml" >> $GITHUB_OUTPUT
-          else
-            echo "type=PLUGIN" >> $GITHUB_OUTPUT
-            echo "template=.github/ISSUE_TEMPLATE/plugin_submission.yml" >> $GITHUB_OUTPUT
-          fi
-
       - name: Parse Issue Body
         id: parse
         uses: stefanbuck/github-issue-parser@v3
         with:
-          template-path: ${{ steps.detect.outputs.template }}
+          template-path: .github/ISSUE_TEMPLATE/plugin_submission.yml
+
+      - name: Detect and Label
+        id: detect
+        run: |
+          TYPE_RAW=$(echo '${{ steps.parse.outputs.jsonString }}' | jq -r '.plugin_type' | tr -d '\n\r')
+          if [ "$TYPE_RAW" == "Meta-Plugin" ]; then
+            PLUGIN_TYPE="META_PLUGIN"
+            LABEL="meta-plugin"
+          else
+            PLUGIN_TYPE="PLUGIN"
+            LABEL="plugin"
+          fi
+          
+          echo "plugin_type=$PLUGIN_TYPE" >> $GITHUB_ENV
+          echo "label=$LABEL" >> $GITHUB_ENV
+          
+          gh issue edit ${{ github.event.issue.number }} \
+            --add-label "$LABEL" \
+            --remove-label "submission"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Plugin List
         shell: bash
         env:
           ISSUE_JSON: ${{ steps.parse.outputs.jsonString }}
-          PLUGIN_TYPE: ${{ steps.detect.outputs.type }}
         run: |
           NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name' | tr -d '\n\r')
           URL=$(echo "$ISSUE_JSON" | jq -r '.source_url' | tr -d '\n\r')
@@ -60,7 +69,7 @@ jobs:
           
           # Update JSON list
           jq --arg name "$NAME" \
-             --arg type "$PLUGIN_TYPE" \
+             --arg type "$plugin_type" \
              --arg servers "$SERVER" \
              --arg owner "$OWNER" \
              --arg url "$URL" \
@@ -69,27 +78,20 @@ jobs:
              docs/public/data/plugins.json > docs/public/data/plugins.tmp.json
           
           mv docs/public/data/plugins.tmp.json docs/public/data/plugins.json
-          echo "plugin_type=$PLUGIN_TYPE" >> $GITHUB_ENV
           echo "plugin_name=$NAME" >> $GITHUB_ENV
-
-      - name: Cleanup Issue Labels
-        run: |
-          gh issue edit ${{ github.event.issue.number }} --remove-label "submission"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "feat: add ${{ env.plugin_type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}"
+          commit-message: "feat: add ${{ env.label }}"
           title: "Add ${{ env.plugin_type == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }}: ${{ env.plugin_name }}"
           body: |
             This PR adds a new ${{ env.plugin_type == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }} to the documentation.
             
             Closes huangdihd/xinbot_documention#${{ github.event.issue.number }}
           branch: "add-plugin-${{ github.event.issue.number }}"
-          labels: "${{ env.plugin_type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}"
+          labels: "${{ env.label }}"
           delete-branch: true
 
       - name: Close Issue
