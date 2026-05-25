@@ -40,19 +40,19 @@
 /* Button Scattering Effects */
 :root {
   --vp-button-brand-hover-border: transparent;
-  /* Brighten brand color (Blue) in light mode */
-  --vp-c-brand-1: #3491fa; 
-  --vp-c-brand-2: #2172d8;
+  /* Brighten brand color in light mode */
+  --vp-c-brand-1: #42b883; 
+  --vp-c-brand-2: #33a06f;
   
-  /* Dynamic shadow variables (Blue based) */
-  --btn-shadow-color: rgba(52, 145, 250, 0.25);
-  --btn-shadow-hover-color: rgba(52, 145, 250, 0.35);
+  /* Dynamic shadow variables */
+  --btn-shadow-color: rgba(66, 184, 131, 0.25);
+  --btn-shadow-hover-color: rgba(66, 184, 131, 0.35);
 }
 
 .dark {
-  /* Dark mode glow variables (Blue based) */
-  --btn-shadow-color: rgba(52, 145, 250, 0.15);
-  --btn-shadow-hover-color: rgba(52, 145, 250, 0.25);
+  /* Dark mode glow variables */
+  --btn-shadow-color: rgba(66, 184, 131, 0.15);
+  --btn-shadow-hover-color: rgba(66, 184, 131, 0.25);
 }
 
 /* VitePress Default Theme Buttons */
