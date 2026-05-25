@@ -1,6 +1,7 @@
 [
   {
     "name": "xinMetaPlugin",
+    "type": "META_PLUGIN",
     "servers": "2b2t.xin",
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/xinMetaPlugin",
@@ -9,6 +10,7 @@
   },
   {
     "name": "3c3uMetaPlugin",
+    "type": "META_PLUGIN",
     "servers": "3c3u.org",
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/3c3uMetaPlugin",

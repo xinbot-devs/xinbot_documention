@@ -1,0 +1,30 @@
+name: Plugin Submission
+description: Submit a new regular Plugin to the Xinbot documentation list
+title: "[Plugin]: <Plugin Name>"
+labels: ["plugin"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing to the Xinbot community! Please fill out the information below so we can add your Plugin to the list.
+  - type: input
+    id: plugin_name
+    attributes:
+      label: Plugin Name
+      placeholder: e.g., MyCoolPlugin
+    validations:
+      required: true
+  - type: input
+    id: source_url
+    attributes:
+      label: Source URL (GitHub)
+      placeholder: https://github.com/username/repo
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      placeholder: Briefly describe what this plugin does.
+    validations:
+      required: true

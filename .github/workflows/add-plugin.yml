@@ -1,0 +1,106 @@
+name: Add Plugin from Issue
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  add-plugin:
+    if: |
+      contains(github.event.issue.labels.*.name, 'meta-plugin') || 
+      contains(github.event.issue.labels.*.name, 'plugin') ||
+      startsWith(github.event.issue.title, '[Meta-Plugin]:') ||
+      startsWith(github.event.issue.title, '[Plugin]:')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect Plugin Type
+        id: detect
+        shell: bash
+        run: |
+          if [[ "${{ github.event.issue.labels.*.name }}" == *"meta-plugin"* ]] || [[ "${{ github.event.issue.title }}" == "[Meta-Plugin]:"* ]]; then
+            echo "type=META_PLUGIN" >> $GITHUB_OUTPUT
+            echo "template=.github/ISSUE_TEMPLATE/meta_plugin_submission.yml" >> $GITHUB_OUTPUT
+          else
+            echo "type=PLUGIN" >> $GITHUB_OUTPUT
+            echo "template=.github/ISSUE_TEMPLATE/plugin_submission.yml" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Parse Issue Body
+        id: parse
+        uses: stefanbuck/github-issue-parser@v3
+        with:
+          template-path: ${{ steps.detect.outputs.template }}
+
+      - name: Update Plugin List
+        shell: bash
+        env:
+          ISSUE_JSON: ${{ steps.parse.outputs.jsonString }}
+          PLUGIN_TYPE: ${{ steps.detect.outputs.type }}
+        run: |
+          NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name' | tr -d '\n\r')
+          URL=$(echo "$ISSUE_JSON" | jq -r '.source_url' | tr -d '\n\r')
+          DESC=$(echo "$ISSUE_JSON" | jq -r '.description' | tr -d '\n\r')
+          
+          # Only meta-plugins have this field in the template
+          SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported // ""' | tr -d '\n\r')
+          
+          if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
+            echo "Error: Could not parse issue data."
+            exit 1
+          fi
+          
+          if [[ $URL =~ github\.com/([^/]+)/ ]]; then
+            OWNER="${BASH_REMATCH[1]}"
+          else
+            OWNER="Unknown"
+          fi
+          
+          # Update JSON list
+          if [ "$PLUGIN_TYPE" == "META_PLUGIN" ]; then
+            jq --arg name "$NAME" \
+               --arg type "$PLUGIN_TYPE" \
+               --arg servers "$SERVER" \
+               --arg owner "$OWNER" \
+               --arg url "$URL" \
+               --arg desc "$DESC" \
+               '. + [{"name": $name, "type": $type, "servers": $servers, "owner": $owner, "url": $url, "desc": $desc}]' \
+               docs/public/data/plugins.json > docs/public/data/plugins.tmp.json
+          else
+            jq --arg name "$NAME" \
+               --arg type "$PLUGIN_TYPE" \
+               --arg owner "$OWNER" \
+               --arg url "$URL" \
+               --arg desc "$DESC" \
+               '. + [{"name": $name, "type": $type, "owner": $owner, "url": $url, "desc": $desc}]' \
+               docs/public/data/plugins.json > docs/public/data/plugins.tmp.json
+          fi
+          
+          mv docs/public/data/plugins.tmp.json docs/public/data/plugins.json
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat: add ${{ steps.detect.outputs.type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}"
+          title: "Add ${{ steps.detect.outputs.type == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }}: ${{ steps.parse.outputs.plugin_name }}"
+          body: |
+            This PR adds a new ${{ steps.detect.outputs.type == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }} to the documentation.
+            
+            Closes #${{ github.event.issue.number }}
+          branch: "add-plugin-${{ github.event.issue.number }}"
+          labels: "${{ steps.detect.outputs.type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}"
+          delete-branch: true
+
+      - name: Close Issue
+        if: success()
+        run: gh issue close ${{ github.event.issue.number }} --comment "Auto-generated PR created. Closing issue."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
