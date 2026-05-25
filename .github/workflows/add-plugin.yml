@@ -78,7 +78,7 @@ jobs:
             
             Closes huangdihd/xinbot_documention#${{ github.event.issue.number }}
           branch: "add-plugin-${{ github.event.issue.number }}"
-          labels: "plugin, ${{ env.plugin_type == 'META_PLUGIN' && 'meta-plugin' || '' }}"
+          labels: "${{ env.plugin_type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}"
           delete-branch: true
 
       - name: Close Issue
@@ -86,3 +86,4 @@ jobs:
         run: gh issue close ${{ github.event.issue.number }} --comment "Auto-generated PR created. Closing issue."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+EN }}

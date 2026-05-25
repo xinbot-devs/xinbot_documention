@@ -1,7 +1,7 @@
 name: Plugin Submission
 description: Submit a new Plugin (Regular or Meta) to the Xinbot documentation list
 title: "[Plugin Submission]: <Plugin Name>"
-labels: ["plugin"]
+labels: ["submission"]
 body:
   - type: markdown
     attributes:
