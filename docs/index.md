@@ -6,7 +6,7 @@ hero:
   text: "High-performance, decoupled Minecraft bot"
   tagline: "The next-generation framework for Anarchy Servers — efficient, modular, and developer-friendly"
   image:
-    src: /xinbot-logo.jpg
+    src: /xinbot-logo.png
     alt: Xinbot Logo
   actions:
     - theme: brand
