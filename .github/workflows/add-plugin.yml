@@ -67,6 +67,14 @@ jobs:
           echo "plugin_type=$PLUGIN_TYPE" >> $GITHUB_ENV
           echo "plugin_name=$NAME" >> $GITHUB_ENV
 
+      - name: Label Issue
+        run: |
+          gh issue edit ${{ github.event.issue.number }} \
+            --add-label "${{ env.plugin_type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}" \
+            --remove-label "submission"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
@@ -86,4 +94,4 @@ jobs:
         run: gh issue close ${{ github.event.issue.number }} --comment "Auto-generated PR created. Closing issue."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-EN }}
+
