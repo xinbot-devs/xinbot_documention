@@ -94,7 +94,7 @@ jobs:
           body: |
             This PR adds a new ${{ steps.detect.outputs.type == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }} to the documentation.
             
-            Closes #${{ github.event.issue.number }}
+            Closes huangdihd/xinbot_documention#${{ github.event.issue.number }}
           branch: "add-plugin-${{ github.event.issue.number }}"
           labels: "${{ steps.detect.outputs.type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}"
           delete-branch: true
