@@ -2,7 +2,7 @@ name: Add Plugin from Issue
 
 on:
   issues:
-    types: [opened, edited, labeled]
+    types: [opened, labeled]
 
 permissions:
   contents: write
@@ -11,9 +11,11 @@ permissions:
 
 jobs:
   add-plugin:
+    # Trigger only if it's an 'opened' event with 'submission' label, 
+    # OR a 'labeled' event where the 'submission' label was just added.
     if: |
-      contains(github.event.issue.labels.*.name, 'submission') ||
-      startsWith(github.event.issue.title, '[Plugin Submission]:')
+      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'submission')) ||
+      (github.event.action == 'labeled' && github.event.label.name == 'submission')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -57,6 +59,9 @@ jobs:
           DESC=$(echo "$ISSUE_JSON" | jq -r '.description' | tr -d '\n\r')
           SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported // ""' | tr -d '\n\r')
           
+          # Use the environment variable set in the previous step
+          TYPE="$plugin_type"
+          
           if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
             echo "Error: Could not parse issue data."
             exit 1
@@ -70,7 +75,7 @@ jobs:
           
           # Update JSON list
           jq --arg name "$NAME" \
-             --arg type "$plugin_type" \
+             --arg type "$TYPE" \
              --arg servers "$SERVER" \
              --arg owner "$OWNER" \
              --arg url "$URL" \
