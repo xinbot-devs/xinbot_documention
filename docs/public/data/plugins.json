@@ -15,5 +15,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/3c3uMetaPlugin",
     "desc": "A meta plugin for 3c3u.org"
+  },
+  {
+    "name": "MovementSync",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/movementsync",
+    "desc": "A plugin for xinbot used to record terrain and manage movement."
   }
 ]
