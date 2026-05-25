@@ -36,3 +36,120 @@
 .dark .VPLocalNav {
   background-color: rgba(24, 24, 27, 0.7) !important;
 }
+
+/* Button Scatter (Glow) Effect for All Themes */
+.VPButton {
+  transition: box-shadow 0.3s ease, background-color 0.25s, color 0.25s, border-color 0.25s, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.VPButton:hover {
+  transform: translateY(-2px);
+}
+
+.VPButton.brand {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--vp-c-brand-1) 35%, transparent);
+}
+
+.VPButton.brand:hover {
+  box-shadow: 0 0 30px color-mix(in srgb, var(--vp-c-brand-1) 70%, transparent);
+}
+
+.VPButton.alt {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--vp-c-default-1) 25%, transparent);
+}
+
+.VPButton.alt:hover {
+  box-shadow: 0 0 30px color-mix(in srgb, var(--vp-c-default-1) 50%, transparent);
+}
+
+/* Deeper Scatter Effect for Dark Mode */
+.dark .VPButton.brand {
+  box-shadow: 0 0 25px color-mix(in srgb, var(--vp-c-brand-3) 45%, transparent);
+}
+
+.dark .VPButton.brand:hover {
+  box-shadow: 0 0 35px color-mix(in srgb, var(--vp-c-brand-3) 85%, transparent);
+}
+
+.dark .VPButton.alt {
+  box-shadow: 0 0 25px color-mix(in srgb, var(--vp-c-default-3) 35%, transparent);
+}
+
+.dark .VPButton.alt:hover {
+  box-shadow: 0 0 35px color-mix(in srgb, var(--vp-c-default-3) 65%, transparent);
+}
+
+/* Homepage Feature Cards 3D (Stereo) Effect */
+.VPFeature {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s, background-color 0.25s !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.VPFeature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode adjustments for Feature Cards */
+.dark .VPFeature {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark .VPFeature:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+/* Hero Title Glow Effect */
+.VPHero .name.clip {
+  filter: drop-shadow(0 0 25px rgba(65, 170, 255, 0.5));
+  transition: filter 0.3s ease;
+}
+
+.VPHero .name.clip:hover {
+  filter: drop-shadow(0 0 45px rgba(65, 170, 255, 0.8));
+}
+
+.dark .VPHero .name.clip {
+  filter: drop-shadow(0 0 35px rgba(65, 209, 255, 0.6));
+}
+
+.dark .VPHero .name.clip:hover {
+  filter: drop-shadow(0 0 55px rgba(65, 209, 255, 0.9));
+}
+
+/* Hero Logo Image Glow Effect */
+.VPHero .image-src {
+  filter: drop-shadow(0 0 30px rgba(65, 170, 255, 0.3));
+  transition: filter 0.4s ease !important;
+  cursor: pointer;
+}
+
+.VPHero .image-src:hover {
+  filter: drop-shadow(0 0 55px rgba(65, 170, 255, 0.6));
+}
+
+.dark .VPHero .image-src {
+  filter: drop-shadow(0 0 40px rgba(65, 209, 255, 0.4));
+}
+
+.dark .VPHero .image-src:hover {
+  filter: drop-shadow(0 0 65px rgba(65, 209, 255, 0.8));
+}
+
+
+
+/* Button Click (Press) Effect */
+.VPButton:active {
+  transform: translateY(2px) scale(0.98);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.VPButton.brand:active, .VPButton.alt:active {
+  box-shadow: 0 0 10px transparent !important;
+}
+
+
+
+
+
+
