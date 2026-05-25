@@ -12,35 +12,40 @@ permissions:
 jobs:
   add-plugin:
     if: |
-      contains(github.event.issue.labels.*.name, 'plugin') ||
-      startsWith(github.event.issue.title, '[Plugin Submission]:')
+      contains(github.event.issue.labels.*.name, 'submission')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Detect Plugin Type
+        id: detect
+        shell: bash
+        run: |
+          if [[ "${{ github.event.issue.labels.*.name }}" == *"meta-plugin"* ]]; then
+            echo "type=META_PLUGIN" >> $GITHUB_OUTPUT
+            echo "template=.github/ISSUE_TEMPLATE/meta_plugin_submission.yml" >> $GITHUB_OUTPUT
+          else
+            echo "type=PLUGIN" >> $GITHUB_OUTPUT
+            echo "template=.github/ISSUE_TEMPLATE/plugin_submission.yml" >> $GITHUB_OUTPUT
+          fi
+
       - name: Parse Issue Body
         id: parse
         uses: stefanbuck/github-issue-parser@v3
         with:
-          template-path: .github/ISSUE_TEMPLATE/plugin_submission.yml
+          template-path: ${{ steps.detect.outputs.template }}
 
       - name: Update Plugin List
         shell: bash
         env:
           ISSUE_JSON: ${{ steps.parse.outputs.jsonString }}
+          PLUGIN_TYPE: ${{ steps.detect.outputs.type }}
         run: |
           NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name' | tr -d '\n\r')
           URL=$(echo "$ISSUE_JSON" | jq -r '.source_url' | tr -d '\n\r')
           DESC=$(echo "$ISSUE_JSON" | jq -r '.description' | tr -d '\n\r')
-          TYPE_RAW=$(echo "$ISSUE_JSON" | jq -r '.plugin_type' | tr -d '\n\r')
           SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported // ""' | tr -d '\n\r')
-          
-          if [ "$TYPE_RAW" == "Meta-Plugin" ]; then
-            PLUGIN_TYPE="META_PLUGIN"
-          else
-            PLUGIN_TYPE="PLUGIN"
-          fi
           
           if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
             echo "Error: Could not parse issue data."
@@ -67,11 +72,9 @@ jobs:
           echo "plugin_type=$PLUGIN_TYPE" >> $GITHUB_ENV
           echo "plugin_name=$NAME" >> $GITHUB_ENV
 
-      - name: Label Issue
+      - name: Cleanup Issue Labels
         run: |
-          gh issue edit ${{ github.event.issue.number }} \
-            --add-label "${{ env.plugin_type == 'META_PLUGIN' && 'meta-plugin' || 'plugin' }}" \
-            --remove-label "submission"
+          gh issue edit ${{ github.event.issue.number }} --remove-label "submission"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -94,4 +97,3 @@ jobs:
         run: gh issue close ${{ github.event.issue.number }} --comment "Auto-generated PR created. Closing issue."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
