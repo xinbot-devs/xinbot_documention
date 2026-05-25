@@ -6,7 +6,7 @@ on:
 
 jobs:
   delete-branch:
-    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.head.ref, 'add-plugin-') || startsWith(github.event.pull_request.head.ref, 'add-meta-plugin-'))
+    if: (startsWith(github.event.pull_request.head.ref, 'add-plugin-') || startsWith(github.event.pull_request.head.ref, 'add-meta-plugin-'))
     runs-on: ubuntu-latest
     permissions:
       contents: write
