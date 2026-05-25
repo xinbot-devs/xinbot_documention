@@ -29,6 +29,7 @@ jobs:
         id: detect
         env:
           ISSUE_JSON: ${{ steps.parse.outputs.jsonString }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TYPE_RAW=$(echo "$ISSUE_JSON" | jq -r '.plugin_type' | tr -d '\n\r')
           if [ "$TYPE_RAW" == "Meta-Plugin" ]; then
@@ -45,8 +46,6 @@ jobs:
           gh issue edit ${{ github.event.issue.number }} \
             --add-label "$LABEL" \
             --remove-label "submission"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Plugin List
         shell: bash
