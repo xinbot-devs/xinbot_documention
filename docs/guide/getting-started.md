@@ -12,7 +12,7 @@ Starting from version 2.0.0, Xinbot requires a **MetaPlugin** to handle server-s
    Download the file named `xinbot-[LATEST_VERSION].jar`.
 2. **MetaPlugin:** Download the MetaPlugin designed for your target server (e.g., 2b2t.xin):
    [xinMetaPlugin Releases](https://github.com/huangdihd/xinMetaPlugin/releases)  
-   Check our [**Meta-Plugin List**](./meta-plugin-list) to find a plugin compatible with your server.
+   Check our [**Plugin List**](./plugin-list) to find a plugin compatible with your server.
    Place the downloaded MetaPlugin JAR into the `plugin` folder (which you can configure in step 3).
 
 ## 2. Install Java

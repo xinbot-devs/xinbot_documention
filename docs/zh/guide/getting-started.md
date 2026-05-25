@@ -12,7 +12,7 @@
    下载名为 `xinbot-[最新版本号].jar` 的文件。
 2. **元插件：** 获取适配您目标服务器（如 `2b2t.xin`）的元插件：
    [xinMetaPlugin Releases](https://github.com/huangdihd/xinMetaPlugin/releases)  
-   查看 [**元插件列表**](./meta-plugin-list) 以获取更多适配不同服务器的插件。
+   查看 [**插件列表**](./plugin-list) 以获取更多适配不同服务器的插件。
    下载元插件 JAR 并将其放入 `plugin` 文件夹中（将在第 3 步中配置）。
 
 ## 2. 安装 Java 环境

@@ -97,4 +97,4 @@ The main purpose of a MetaPlugin is to encapsulate logic that is unique to a spe
 
 You can refer to the official [xinMetaPlugin](https://github.com/huangdihd/xinMetaPlugin) repository to see a complete implementation of a MetaPlugin designed for the `2b2t.xin` server.
 
-See more community Meta-Plugins: [Meta-Plugin List](../guide/meta-plugin-list.md)
+See more community Plugins: [Plugin List](../guide/plugin-list.md)
