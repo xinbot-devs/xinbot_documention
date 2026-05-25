@@ -37,43 +37,44 @@
   background-color: rgba(24, 24, 27, 0.7) !important;
 }
 
-/* Button Scattering Effects */
+/* Button Scattering Effects (Light Mode) */
 :root {
   --vp-button-brand-hover-border: transparent;
-  /* Brighten brand color in light mode */
-  --vp-c-brand-1: #42b883; 
-  --vp-c-brand-2: #33a06f;
-  
-  /* Dynamic shadow variables */
-  --btn-shadow-color: rgba(66, 184, 131, 0.25);
-  --btn-shadow-hover-color: rgba(66, 184, 131, 0.35);
-}
-
-.dark {
-  /* Dark mode glow variables */
-  --btn-shadow-color: rgba(66, 184, 131, 0.15);
-  --btn-shadow-hover-color: rgba(66, 184, 131, 0.25);
 }
 
 /* VitePress Default Theme Buttons */
 .VPButton.brand {
-  box-shadow: 0 4px 12px var(--btn-shadow-color);
+  box-shadow: 0 4px 12px rgba(62, 175, 124, 0.25);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .VPButton.brand:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px var(--btn-shadow-hover-color);
+  box-shadow: 0 6px 16px rgba(62, 175, 124, 0.35);
 }
 
 /* Custom Generator Component Buttons */
 .copy-btn, .add-btn {
-  /* Use theme variables if possible, fallback to standard shadow */
-  box-shadow: 0 2px 8px var(--btn-shadow-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
 }
 
 .copy-btn:hover, .add-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px var(--btn-shadow-hover-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Specifically for brand-colored custom buttons if any */
+.copy-btn {
+  box-shadow: 0 4px 10px rgba(62, 175, 124, 0.2);
+}
+
+.copy-btn:hover {
+  box-shadow: 0 6px 14px rgba(62, 175, 124, 0.3);
+}
+
+.dark .VPButton.brand,
+.dark .copy-btn,
+.dark .add-btn {
+  box-shadow: none; /* Keep it clean in dark mode or use subtle glow if preferred */
 }
