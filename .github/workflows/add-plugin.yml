@@ -2,7 +2,12 @@ name: Add Plugin from Issue
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [labeled]
+
+# Prevent parallel runs for the same issue to avoid race conditions on branch creation
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.number }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -11,11 +16,8 @@ permissions:
 
 jobs:
   add-plugin:
-    # Trigger only if it's an 'opened' event with 'submission' label, 
-    # OR a 'labeled' event where the 'submission' label was just added.
-    if: |
-      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'submission')) ||
-      (github.event.action == 'labeled' && github.event.label.name == 'submission')
+    # Trigger only when the 'submission' label is added
+    if: github.event.label.name == 'submission'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -42,8 +44,8 @@ jobs:
             LABEL="plugin"
           fi
           
-          echo "plugin_type=$PLUGIN_TYPE" >> $GITHUB_ENV
-          echo "label=$LABEL" >> $GITHUB_ENV
+          echo "PLUGIN_TYPE=$PLUGIN_TYPE" >> $GITHUB_ENV
+          echo "PR_LABEL=$LABEL" >> $GITHUB_ENV
           
           gh issue edit ${{ github.event.issue.number }} \
             --add-label "$LABEL" \
@@ -59,9 +61,6 @@ jobs:
           DESC=$(echo "$ISSUE_JSON" | jq -r '.description' | tr -d '\n\r')
           SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported // ""' | tr -d '\n\r')
           
-          # Use the environment variable set in the previous step
-          TYPE="$plugin_type"
-          
           if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
             echo "Error: Could not parse issue data."
             exit 1
@@ -75,7 +74,7 @@ jobs:
           
           # Update JSON list
           jq --arg name "$NAME" \
-             --arg type "$TYPE" \
+             --arg type "$PLUGIN_TYPE" \
              --arg servers "$SERVER" \
              --arg owner "$OWNER" \
              --arg url "$URL" \
@@ -84,20 +83,20 @@ jobs:
              docs/public/data/plugins.json > docs/public/data/plugins.tmp.json
           
           mv docs/public/data/plugins.tmp.json docs/public/data/plugins.json
-          echo "plugin_name=$NAME" >> $GITHUB_ENV
+          echo "PLUGIN_NAME=$NAME" >> $GITHUB_ENV
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "feat: add ${{ env.label }}"
-          title: "Add ${{ env.plugin_type == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }}: ${{ env.plugin_name }}"
+          commit-message: "feat: add ${{ env.PR_LABEL }}"
+          title: "Add ${{ env.PLUGIN_TYPE == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }}: ${{ env.PLUGIN_NAME }}"
           body: |
-            This PR adds a new ${{ env.plugin_type == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }} to the documentation.
+            This PR adds a new ${{ env.PLUGIN_TYPE == 'META_PLUGIN' && 'Meta-Plugin' || 'Plugin' }} to the documentation.
             
             Closes huangdihd/xinbot_documention#${{ github.event.issue.number }}
           branch: "add-plugin-${{ github.event.issue.number }}"
-          labels: "${{ env.label }}"
+          labels: "${{ env.PR_LABEL }}"
           delete-branch: true
 
       - name: Close Issue
