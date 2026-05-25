@@ -1,4 +1,5 @@
 import DefaultTheme from 'vitepress/theme'
+import './style/index.css'
 import ConfigGenerator from './components/ConfigGenerator.vue'
 import PluginYmlGenerator from './components/PluginYmlGenerator.vue'
 import CommandsYmlGenerator from './components/CommandsYmlGenerator.vue'
@@ -6,7 +7,7 @@ import CommandsYmlGenerator from './components/CommandsYmlGenerator.vue'
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
-    // 注册全局组件
+    // Register global components
     app.component('ConfigGenerator', ConfigGenerator)
     app.component('PluginYmlGenerator', PluginYmlGenerator)
     app.component('CommandsYmlGenerator', CommandsYmlGenerator)
