@@ -1,0 +1,17 @@
+[
+  {
+    "name": "xinMetaPlugin",
+    "servers": "2b2t.xin",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/xinMetaPlugin",
+    "desc": "Official support plugin for 2b2t.xin",
+    "desc_zh": "官方提供的 2b2t.xin 支持插件"
+  },
+  {
+    "name": "3c3uMetaPlugin",
+    "servers": "3c3u.org",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/3c3uMetaPlugin",
+    "desc": "A meta plugin for 3c3u.org"
+  }
+]
