@@ -31,5 +31,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/xinRemote",
     "desc": "A plugin for Xinbot to remotely control your bot instance"
+  },
+  {
+    "name": "BackToTheBase",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/BackToTheBase",
+    "desc": "A xinbot plugin to trigger ender pearls"
   }
 ]
