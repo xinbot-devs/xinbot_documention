@@ -47,5 +47,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/envy",
     "desc": "一个xinbot插件, 在监测到聊天消息中存在入后自动羡慕后面的内容"
+  },
+  {
+    "name": "XinClaw",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/xinclaw",
+    "desc": "一个基于 LangChain4j 框架开发的 Xinbot 机器人高级 AI 插件"
   }
 ]
