@@ -6,7 +6,7 @@ This documentation is built with [VitePress](https://vitepress.dev/) and provide
 
 ## 📖 Access the Documentation
 
-The live documentation is available at: [https://huangdihd.github.io/xinbot_documention/](https://huangdihd.github.io/xinbot_documention/)
+The live documentation is available at: [https://xinbot.shouldbe.top](https://xinbot.shouldbe.top)
 
 ## 🛠 Project Structure
 
