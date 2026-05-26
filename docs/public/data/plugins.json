@@ -23,5 +23,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/movementsync",
     "desc": "A plugin for xinbot used to record terrain and manage movement."
+  },
+  {
+    "name": "xinRemote",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/xinRemote",
+    "desc": "A plugin for Xinbot to remotely control your bot instance"
   }
 ]
