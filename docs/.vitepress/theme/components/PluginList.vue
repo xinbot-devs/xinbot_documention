@@ -13,15 +13,15 @@
       </thead>
       <tbody>
         <tr v-for="plugin in plugins" :key="plugin.name">
-          <td><a :href="plugin.url">{{ plugin.name }}</a></td>
+          <td><a :href="plugin.url" target="_blank" rel="noopener noreferrer">{{ plugin.name }}</a></td>
           <td>
             <span :class="['type-tag', plugin.type === 'META_PLUGIN' ? 'meta' : 'regular']">
               {{ formatType(plugin.type) }}
             </span>
           </td>
           <td><code>{{ plugin.servers || '-' }}</code></td>
-          <td><a :href="'https://github.com/' + plugin.owner">{{ plugin.owner }}</a></td>
-          <td><a :href="plugin.url">GitHub</a></td>
+          <td><a :href="'https://github.com/' + plugin.owner" target="_blank" rel="noopener noreferrer">{{ plugin.owner }}</a></td>
+          <td><a :href="plugin.url" target="_blank" rel="noopener noreferrer">GitHub</a></td>
           <td>{{ isZh ? (plugin.desc_zh || plugin.desc) : plugin.desc }}</td>
         </tr>
       </tbody>
