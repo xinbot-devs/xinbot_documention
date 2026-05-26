@@ -1,5 +1,5 @@
 /**
- * Glassmorphism for VitePress
+ * Glassmorphism and Custom Effects
  */
 
 :root {
@@ -10,34 +10,39 @@
   --vp-nav-bg-color: rgba(24, 24, 27, 0.7);
 }
 
-.VPNav {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Glassmorphism only for Desktop (>= 960px) */
+@media (min-width: 960px) {
+  .VPNav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .VPSidebar {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .dark .VPSidebar {
+    background-color: rgba(24, 24, 27, 0.7);
+  }
 }
 
-/* Glassmorphism for Sidebar */
-.VPSidebar {
-  background-color: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
+/* Local Nav is mostly mobile, keep it simple or restricted */
+@media (min-width: 960px) {
+  .VPLocalNav {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
 
-.dark .VPSidebar {
-  background-color: rgba(24, 24, 27, 0.7) !important;
-}
-
-/* Glassmorphism for Local Nav (mobile) */
-.VPLocalNav {
-  background-color: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.dark .VPLocalNav {
-  background-color: rgba(24, 24, 27, 0.7) !important;
+  .dark .VPLocalNav {
+    background-color: rgba(24, 24, 27, 0.7);
+  }
 }
 
 /* Button Scatter (Glow) Effect for All Themes */
+
 .VPButton {
   transition: box-shadow 0.3s ease, background-color 0.25s, color 0.25s, border-color 0.25s, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
