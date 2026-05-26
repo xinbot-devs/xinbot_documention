@@ -63,5 +63,13 @@
     "owner": "2698269088",
     "url": "https://github.com/2698269088/XinPga",
     "desc": "基于 xinbot 2.x 框架制作的宣传插件，支持多信息发送、多模式支持和多语言。插件支持替换各种消息的阿拉伯数字，支持随机消息发送，同时管理员可以从游戏内私聊BOT进行远程控制。支持公屏发送（可以配置随机字符和阿拉伯数字替换）支持私聊发送（可以配置轮询发送时常和间隔）支持多线程发送（仅在主模式为私聊的时候可用，支持阿拉伯数字替换）多线程消息由独立的消息列表。更多功能可以前往GitHub链接查看。"
+  },
+  {
+    "name": "XinChatCommandPlugin",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/XinChatCommandPlugin",
+    "desc": "A robust and extensible chat command framework for XinBot"
   }
 ]
