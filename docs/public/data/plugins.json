@@ -39,5 +39,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/BackToTheBase",
     "desc": "A xinbot plugin to trigger ender pearls"
+  },
+  {
+    "name": "Envy",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/envy",
+    "desc": "一个xinbot插件, 在监测到聊天消息中存在入后自动羡慕后面的内容"
   }
 ]
