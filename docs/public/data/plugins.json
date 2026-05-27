@@ -71,5 +71,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/XinChatCommandPlugin",
     "desc": "A robust and extensible chat command framework for XinBot"
+  },
+  {
+    "name": "SurvivalManager",
+    "type": "PLUGIN",
+    "servers": "2b2t.xin(or others NCP only)",
+    "owner": "giteer12",
+    "url": "https://github.com/giteer12/survivalmanager",
+    "desc": "生存管理[readme.md](https://github.com/user-attachments/files/28291094/readme.md)"
   }
 ]
