@@ -228,24 +228,50 @@ public class XinMetaPlugin implements MetaPlugin {
 
 ## 7. API Reference
 
-### LoginFlow
+### `LoginFlow`
 
-| Method | Description |
+The core state machine class. Extends `SessionAdapter` and can be used directly as a packet listener.
+
+| Method | Return | Description |
+| :--- | :--- | :--- |
+| `static builder(Consumer<String>)` | `LoginFlowBuilder` | Creates a new builder. The `Consumer<String>` is the command sender callback (e.g. `Bot.INSTANCE::sendChatMessage`). |
+| `getState()` | `FlowState` | Returns the current flow state. |
+| `getCurrentStepIndex()` | `int` | Returns the current step index (0-based). Returns `getTotalSteps()` when completed. |
+| `getTotalSteps()` | `int` | Returns the total number of steps in the flow. |
+| `reset()` | `void` | Resets the flow to `WAITING` state and step index 0. Fires `onStateChange` callback and `LoginFlowEvent`. |
+
+### `LoginFlow.FlowState`
+
+Enum representing the flow's current state.
+
+| Value | Description |
 | :--- | :--- |
-| `static builder(Consumer<String>)` | Creates a new builder with a command sender |
-| `getState()` | Returns current `FlowState` |
-| `getCurrentStepIndex()` | Returns current step index (0-based) |
-| `getTotalSteps()` | Returns total number of steps |
-| `reset()` | Resets to initial state |
+| `WAITING` | Flow is active, waiting for the current step's conditions to be met. |
+| `COMPLETED` | All steps have been executed successfully. |
+| `FAILED` | A step timed out (only possible when `stepTimeout` is set). |
 
-### LoginFlow.FlowState
+### `LoginFlow.LoginFlowContext`
 
-`WAITING` | `COMPLETED` | `FAILED`
+```java
+public record LoginFlowContext(int stepIndex, FlowState state) {}
+```
 
-### LoginFlow.LoginFlowContext
+Immutable snapshot of the flow state, passed to the `onStateChange` callback.
 
-Record with `stepIndex()` and `state()`.
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `stepIndex` | `int` | The step index at the time of the transition. |
+| `state` | `FlowState` | The new state after the transition. |
 
-### LoginFlowEvent
+### `LoginFlowEvent`
 
-Fired when `eventManager` is set. Provides `getStepIndex()` and `getFlowState()`.
+```java
+public class LoginFlowEvent extends Event { ... }
+```
+
+Fired via `EventManager` on every state transition when `eventManager` is set on the builder.
+
+| Method | Return | Description |
+| :--- | :--- | :--- |
+| `getStepIndex()` | `int` | The step index at the time of the transition. |
+| `getFlowState()` | `FlowState` | The new state after the transition. |

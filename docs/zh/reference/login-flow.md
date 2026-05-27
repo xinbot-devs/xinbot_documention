@@ -223,24 +223,50 @@ public class XinMetaPlugin implements MetaPlugin {
 
 ## 7. API 参考
 
-### LoginFlow
+### `LoginFlow`
 
-| 方法 | 说明 |
+核心状态机类。继承 `SessionAdapter`，可直接作为数据包监听器使用。
+
+| 方法 | 返回值 | 说明 |
+| :--- | :--- | :--- |
+| `static builder(Consumer<String>)` | `LoginFlowBuilder` | 创建构建器。`Consumer<String>` 是命令发送回调（如 `Bot.INSTANCE::sendChatMessage`）。 |
+| `getState()` | `FlowState` | 返回当前流程状态。 |
+| `getCurrentStepIndex()` | `int` | 返回当前步骤索引（从 0 开始）。完成时返回 `getTotalSteps()`。 |
+| `getTotalSteps()` | `int` | 返回流程中的总步骤数。 |
+| `reset()` | `void` | 重置为 `WAITING` 状态，步骤索引归零。会触发 `onStateChange` 回调和 `LoginFlowEvent`。 |
+
+### `LoginFlow.FlowState`
+
+表示流程当前状态的枚举。
+
+| 值 | 说明 |
 | :--- | :--- |
-| `static builder(Consumer<String>)` | 创建构建器，传入命令发送回调 |
-| `getState()` | 返回当前 `FlowState` |
-| `getCurrentStepIndex()` | 返回当前步骤索引（从 0 开始） |
-| `getTotalSteps()` | 返回总步骤数 |
-| `reset()` | 重置到初始状态 |
+| `WAITING` | 流程活跃中，等待当前步骤的条件满足。 |
+| `COMPLETED` | 所有步骤已成功执行。 |
+| `FAILED` | 步骤超时（仅在设置了 `stepTimeout` 时可能发生）。 |
 
-### LoginFlow.FlowState
+### `LoginFlow.LoginFlowContext`
 
-`WAITING` | `COMPLETED` | `FAILED`
+```java
+public record LoginFlowContext(int stepIndex, FlowState state) {}
+```
 
-### LoginFlow.LoginFlowContext
+流程状态的不可变快照，传递给 `onStateChange` 回调。
 
-Record，包含 `stepIndex()` 和 `state()`。
+| 字段 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| `stepIndex` | `int` | 状态变化时的步骤索引。 |
+| `state` | `FlowState` | 变化后的新状态。 |
 
-### LoginFlowEvent
+### `LoginFlowEvent`
 
-设置了 `eventManager` 时触发。提供 `getStepIndex()` 和 `getFlowState()`。
+```java
+public class LoginFlowEvent extends Event { ... }
+```
+
+设置了 `eventManager` 时，每次状态变化都会通过 `EventManager` 触发此事件。
+
+| 方法 | 返回值 | 说明 |
+| :--- | :--- | :--- |
+| `getStepIndex()` | `int` | 状态变化时的步骤索引。 |
+| `getFlowState()` | `FlowState` | 变化后的新状态。 |
