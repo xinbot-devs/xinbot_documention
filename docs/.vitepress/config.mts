@@ -55,6 +55,7 @@ export default defineConfig({
               items: [
                 { text: 'Lifecycle', link: '/reference/plugin-lifecycle' },
                 { text: 'MetaPlugin', link: '/reference/meta-plugin' },
+                { text: 'LoginFlow', link: '/reference/login-flow' },
                 { text: 'Event System', link: '/reference/event-system' },
                 { text: 'Command System', link: '/reference/command-system' },
                 { text: 'Packet Handling', link: '/reference/packet-handling' },
@@ -131,6 +132,7 @@ export default defineConfig({
               items: [
                 { text: '生命周期与依赖', link: '/zh/reference/plugin-lifecycle' },
                 { text: '元插件开发', link: '/zh/reference/meta-plugin' },
+                { text: 'LoginFlow 登录流', link: '/zh/reference/login-flow' },
                 { text: '事件系统', link: '/zh/reference/event-system' },
                 { text: '命令系统', link: '/zh/reference/command-system' },
                 { text: '数据包处理', link: '/zh/reference/packet-handling' },
