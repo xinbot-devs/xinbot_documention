@@ -8,6 +8,7 @@ Welcome to the Xinbot Plugin Development Manual. Xinbot features a highly decoup
 ### 🚀 Core Documentation
 - **[Plugin Lifecycle](./plugin-lifecycle)**: Setup your project and master lifecycle hooks like `onEnable`.
 - **[MetaPlugin Development](./meta-plugin)**: Learn how to write server-specific core interaction plugins.
+- **[LoginFlow](./login-flow)**: Declarative login state machine for MetaPlugins — replaces scattered listeners.
 - **[Event System](./event-system)**: Listen to 20+ built-in events including chat, login, and player updates.
 - **[Command System](./command-system)**: Add custom console commands with tab completion and real-time highlighting.
 - **[Packet Handling](./packet-handling)**: Go low-level and handle raw Minecraft protocol packets.
