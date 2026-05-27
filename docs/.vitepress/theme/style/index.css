@@ -158,3 +158,8 @@
 
 
 
+
+/* Expand wide pages to use full available width */
+.wide-page .VPDoc .content-container {
+  max-width: 100% !important;
+}

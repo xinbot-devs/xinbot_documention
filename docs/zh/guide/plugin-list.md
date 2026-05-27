@@ -1,3 +1,7 @@
+---
+aside: false
+pageClass: wide-page
+---
 # 插件列表
 
 这里列出了社区贡献的 Xinbot 插件。

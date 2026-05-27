@@ -1,3 +1,7 @@
+---
+aside: false
+pageClass: wide-page
+---
 # Plugin List
 
 This page lists community-contributed Xinbot plugins.
