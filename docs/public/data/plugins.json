@@ -71,5 +71,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/XinChatCommandPlugin",
     "desc": "A robust and extensible chat command framework for XinBot"
+  },
+  {
+    "name": "SurvivalManager",
+    "type": "PLUGIN",
+    "servers": "2b2t.xin(or others NCP severs)",
+    "owner": "giteer12",
+    "url": "https://github.com/giteer12/survivalmanager",
+    "desc": "生存管理，防挂机，背包管理，反击等，支持配置系统，好友系统，光环默认豁免末影人和玩家，攻击玩家请打开设置，末影人反击与反击玩家同模块，末地强烈建议佩戴南瓜头！！！"
   }
 ]
