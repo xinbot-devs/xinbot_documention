@@ -86,6 +86,7 @@ Each step can have:
 | `describe(String)` | No | Human-readable description |
 | `login()` | No | Marks this step as a login command; fires `SendLoginCommandEvent` *(since 2.2.1)* |
 | `register()` | No | Marks this step as a register command; fires `SendRegisterCommandEvent` *(since 2.2.1)* |
+| `skipWhen(Predicate<T>)` | No | Skips the step if predicate returns true *(since 2.2.1)* |
 
 ### Auto-advance (default)
 
@@ -120,6 +121,18 @@ Use `successWhen(Class, Predicate)` when the success packet is different from th
     .then("l password")
     .successWhen(ClientboundSetTitleTextPacket.class,
         p -> p.toString().contains("success"))
+```
+
+### Skip optional steps *(since 2.2.1)*
+
+Use `skipWhen()` to skip a step when a condition is met. The step is immediately skipped without sending any command:
+
+```java
+.step(ClientboundSetTitleTextPacket.class)
+    .match(p -> p.toString().contains("captcha"))
+    .then("solve captcha")
+    .skipWhen(p -> !p.toString().contains("required"))
+    // Skips if captcha is not required
 ```
 
 ---
@@ -369,3 +382,19 @@ public class SendRegisterCommandEvent extends SendCommandEvent { ... }
 ```
 
 Fired when a step marked with `register()` sends a command. Extends `SendCommandEvent`.
+
+### `LoginSuccessEvent` *(since 2.2.1)*
+
+```java
+public class LoginSuccessEvent extends Event { ... }
+```
+
+Fired automatically when a step marked with `login()` succeeds (advances to next step).
+
+### `RegisterSuccessEvent` *(since 2.2.1)*
+
+```java
+public class RegisterSuccessEvent extends Event { ... }
+```
+
+Fired automatically when a step marked with `register()` succeeds (advances to next step).

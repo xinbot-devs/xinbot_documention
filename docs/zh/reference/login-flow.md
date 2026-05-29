@@ -81,6 +81,7 @@ Bot.INSTANCE.addPacketListener(flow, this);
 | `describe(String)` | 否 | 可读描述 |
 | `login()` | 否 | 标记为登录命令步骤，触发 `SendLoginCommandEvent` *（2.2.1 新增）* |
 | `register()` | 否 | 标记为注册命令步骤，触发 `SendRegisterCommandEvent` *（2.2.1 新增）* |
+| `skipWhen(Predicate<T>)` | 否 | 条件满足时跳过该步骤 *（2.2.1 新增）* |
 
 ### 自动完成（默认）
 
@@ -115,6 +116,18 @@ Bot.INSTANCE.addPacketListener(flow, this);
     .then("l password")
     .successWhen(ClientboundSetTitleTextPacket.class,
         p -> p.toString().contains("success"))
+```
+
+### 跳过可选步骤 *（2.2.1 新增）*
+
+使用 `skipWhen()` 在条件满足时跳过步骤。步骤会被立即跳过，不发送任何命令：
+
+```java
+.step(ClientboundSetTitleTextPacket.class)
+    .match(p -> p.toString().contains("captcha"))
+    .then("solve captcha")
+    .skipWhen(p -> !p.toString().contains("required"))
+    // 如果不需要验证码则跳过
 ```
 
 ---
@@ -364,3 +377,19 @@ public class SendRegisterCommandEvent extends SendCommandEvent { ... }
 ```
 
 当步骤使用 `register()` 标记时触发的命令事件。继承 `SendCommandEvent`。
+
+### `LoginSuccessEvent` *（2.2.1 新增）*
+
+```java
+public class LoginSuccessEvent extends Event { ... }
+```
+
+当步骤使用 `login()` 标记且成功（进入下一步）时自动触发。
+
+### `RegisterSuccessEvent` *（2.2.1 新增）*
+
+```java
+public class RegisterSuccessEvent extends Event { ... }
+```
+
+当步骤使用 `register()` 标记且成功（进入下一步）时自动触发。
