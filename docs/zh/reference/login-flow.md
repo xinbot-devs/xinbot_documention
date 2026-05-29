@@ -79,8 +79,8 @@ Bot.INSTANCE.addPacketListener(flow, this);
 | `successWhen(Class, Predicate)` | 否 | 对不同包类型的成功判断 |
 | `onSuccess(Consumer<T>)` | 否 | 成功时的回调 |
 | `describe(String)` | 否 | 可读描述 |
-| `login()` | 否 | 标记为登录命令步骤，触发 `SendLoginCommandEvent` |
-| `register()` | 否 | 标记为注册命令步骤，触发 `SendRegisterCommandEvent` |
+| `login()` | 否 | 标记为登录命令步骤，触发 `SendLoginCommandEvent` *（2.2.1 新增）* |
+| `register()` | 否 | 标记为注册命令步骤，触发 `SendRegisterCommandEvent` *（2.2.1 新增）* |
 
 ### 自动完成（默认）
 
@@ -182,7 +182,7 @@ flow.reset();
 
 ---
 
-## 6. 命令事件
+## 6. 命令事件 *（2.2.1 新增）*
 
 当步骤发送命令时，LoginFlow 会触发类型化事件，允许插件拦截、修改或取消命令。
 
@@ -334,7 +334,7 @@ public class LoginFlowEvent extends Event { ... }
 | `getStepIndex()` | `int` | 状态变化时的步骤索引。 |
 | `getFlowState()` | `FlowState` | 变化后的新状态。 |
 
-### `SendCommandEvent`
+### `SendCommandEvent` *（2.2.1 新增）*
 
 ```java
 public class SendCommandEvent extends Event implements HasDefaultAction { ... }
@@ -349,7 +349,7 @@ public class SendCommandEvent extends Event implements HasDefaultAction { ... }
 | `isDefaultActionCancelled()` | `boolean` | 返回命令是否被取消。 |
 | `setDefaultActionCancelled(boolean)` | `void` | 取消命令（阻止发送）。 |
 
-### `SendLoginCommandEvent`
+### `SendLoginCommandEvent` *（2.2.1 新增）*
 
 ```java
 public class SendLoginCommandEvent extends SendCommandEvent { ... }
@@ -357,7 +357,7 @@ public class SendLoginCommandEvent extends SendCommandEvent { ... }
 
 当步骤使用 `login()` 标记时触发的命令事件。继承 `SendCommandEvent`。
 
-### `SendRegisterCommandEvent`
+### `SendRegisterCommandEvent` *（2.2.1 新增）*
 
 ```java
 public class SendRegisterCommandEvent extends SendCommandEvent { ... }

@@ -84,8 +84,8 @@ Each step can have:
 | `successWhen(Class, Predicate)` | No | Success condition on a different packet type |
 | `onSuccess(Consumer<T>)` | No | Callback when step succeeds |
 | `describe(String)` | No | Human-readable description |
-| `login()` | No | Marks this step as a login command; fires `SendLoginCommandEvent` |
-| `register()` | No | Marks this step as a register command; fires `SendRegisterCommandEvent` |
+| `login()` | No | Marks this step as a login command; fires `SendLoginCommandEvent` *(since 2.2.1)* |
+| `register()` | No | Marks this step as a register command; fires `SendRegisterCommandEvent` *(since 2.2.1)* |
 
 ### Auto-advance (default)
 
@@ -187,7 +187,7 @@ This also fires the `onStateChange` callback and `LoginFlowEvent`.
 
 ---
 
-## 6. Command Events
+## 6. Command Events *(since 2.2.1)*
 
 When a step sends a command, LoginFlow can fire typed events that allow plugins to intercept, modify, or cancel the command.
 
@@ -339,7 +339,7 @@ Fired via `EventManager` on every state transition when `eventManager` is set on
 | `getStepIndex()` | `int` | The step index at the time of the transition. |
 | `getFlowState()` | `FlowState` | The new state after the transition. |
 
-### `SendCommandEvent`
+### `SendCommandEvent` *(since 2.2.1)*
 
 ```java
 public class SendCommandEvent extends Event implements HasDefaultAction { ... }
@@ -354,7 +354,7 @@ Base event fired when a command is sent. Can be used to intercept or modify any 
 | `isDefaultActionCancelled()` | `boolean` | Returns whether the command is cancelled. |
 | `setDefaultActionCancelled(boolean)` | `void` | Cancels the command (prevents sending). |
 
-### `SendLoginCommandEvent`
+### `SendLoginCommandEvent` *(since 2.2.1)*
 
 ```java
 public class SendLoginCommandEvent extends SendCommandEvent { ... }
@@ -362,7 +362,7 @@ public class SendLoginCommandEvent extends SendCommandEvent { ... }
 
 Fired when a step marked with `login()` sends a command. Extends `SendCommandEvent`.
 
-### `SendRegisterCommandEvent`
+### `SendRegisterCommandEvent` *(since 2.2.1)*
 
 ```java
 public class SendRegisterCommandEvent extends SendCommandEvent { ... }
