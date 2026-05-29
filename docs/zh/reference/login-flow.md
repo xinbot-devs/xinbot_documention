@@ -79,6 +79,8 @@ Bot.INSTANCE.addPacketListener(flow, this);
 | `successWhen(Class, Predicate)` | 否 | 对不同包类型的成功判断 |
 | `onSuccess(Consumer<T>)` | 否 | 成功时的回调 |
 | `describe(String)` | 否 | 可读描述 |
+| `login()` | 否 | 标记为登录命令步骤，触发 `SendLoginCommandEvent` |
+| `register()` | 否 | 标记为注册命令步骤，触发 `SendRegisterCommandEvent` |
 
 ### 自动完成（默认）
 
@@ -180,7 +182,53 @@ flow.reset();
 
 ---
 
-## 6. 完整示例：2b2t.xin 登录
+## 6. 命令事件
+
+当步骤发送命令时，LoginFlow 会触发类型化事件，允许插件拦截、修改或取消命令。
+
+### 命令类型
+
+| 方法 | 触发事件 | 说明 |
+| :--- | :--- | :--- |
+| `login()` | `SendLoginCommandEvent` | 登录命令步骤 |
+| `register()` | `SendRegisterCommandEvent` | 注册命令步骤 |
+| （默认） | `SendCommandEvent` | 通用命令步骤 |
+
+### 事件功能
+
+所有命令事件都继承 `SendCommandEvent` 并实现 `HasDefaultAction`：
+
+| 方法 | 说明 |
+| :--- | :--- |
+| `getCommand()` | 返回命令字符串 |
+| `setCommand(String)` | 发送前修改命令 |
+| `isDefaultActionCancelled()` | 返回命令是否被取消 |
+| `setDefaultActionCancelled(boolean)` | 取消命令（阻止发送） |
+
+### 示例：拦截登录命令
+
+```java
+EventManager events = Bot.INSTANCE.getPluginManager().events();
+events.registerEvent(SendLoginCommandEvent.class, event -> {
+    log.info("登录命令: {}", event.getCommand());
+    // 修改命令
+    event.setCommand(event.getCommand() + " extra");
+});
+```
+
+### 示例：在特定条件下取消注册
+
+```java
+events.registerEvent(SendRegisterCommandEvent.class, event -> {
+    if (someCondition) {
+        event.setDefaultActionCancelled(true); // 阻止注册
+    }
+});
+```
+
+---
+
+## 7. 完整示例：2b2t.xin 登录
 
 ```java
 public class XinMetaPlugin implements MetaPlugin {
@@ -188,18 +236,33 @@ public class XinMetaPlugin implements MetaPlugin {
 
     @Override
     public void onEnable() {
+        // 注册命令事件监听器
+        EventManager events = Bot.INSTANCE.getPluginManager().events();
+        events.registerEvent(SendLoginCommandEvent.class, e ->
+            log.info("登录命令已发送: {}", e.getCommand()));
+        events.registerEvent(SendRegisterCommandEvent.class, e ->
+            log.info("注册命令已发送: {}", e.getCommand()));
+
         loginFlow = LoginFlow.builder(Bot.INSTANCE::sendChatMessage)
             .templateExpander(t -> t.replace("{password}",
                 Bot.INSTANCE.getConfig().getConfigData().getAccount().getPassword()))
-            .eventManager(Bot.INSTANCE.getPluginManager().events())
+            .eventManager(events)
 
-            // 第一步：注册或登录
+            // 第一步：注册
             .step(ClientboundSetTitleTextPacket.class)
                 .match(p -> p.toString().contains("注册"))
                 .then("reg {password} {password}")
+                .register()  // 触发 SendRegisterCommandEvent
                 .describe("注册")
 
-            // 第二步：等待登录成功
+            // 第二步：登录（已注册的情况）
+            .step(ClientboundSetTitleTextPacket.class)
+                .match(p -> p.toString().contains("登陆"))
+                .then("l {password}")
+                .login()  // 触发 SendLoginCommandEvent
+                .describe("登录")
+
+            // 第三步：等待登录成功
             .step(ClientboundSetTitleTextPacket.class)
                 .match(p -> p.toString().contains("登陆成功"))
                 .onSuccess(p -> log.info("登录成功"))
@@ -221,7 +284,7 @@ public class XinMetaPlugin implements MetaPlugin {
 
 ---
 
-## 7. API 参考
+## 8. API 参考
 
 ### `LoginFlow`
 
@@ -270,3 +333,34 @@ public class LoginFlowEvent extends Event { ... }
 | :--- | :--- | :--- |
 | `getStepIndex()` | `int` | 状态变化时的步骤索引。 |
 | `getFlowState()` | `FlowState` | 变化后的新状态。 |
+
+### `SendCommandEvent`
+
+```java
+public class SendCommandEvent extends Event implements HasDefaultAction { ... }
+```
+
+命令发送时触发的基础事件。可用于拦截或修改任何命令。
+
+| 方法 | 返回值 | 说明 |
+| :--- | :--- | :--- |
+| `getCommand()` | `String` | 要发送的命令字符串。 |
+| `setCommand(String)` | `void` | 发送前修改命令。 |
+| `isDefaultActionCancelled()` | `boolean` | 返回命令是否被取消。 |
+| `setDefaultActionCancelled(boolean)` | `void` | 取消命令（阻止发送）。 |
+
+### `SendLoginCommandEvent`
+
+```java
+public class SendLoginCommandEvent extends SendCommandEvent { ... }
+```
+
+当步骤使用 `login()` 标记时触发的命令事件。继承 `SendCommandEvent`。
+
+### `SendRegisterCommandEvent`
+
+```java
+public class SendRegisterCommandEvent extends SendCommandEvent { ... }
+```
+
+当步骤使用 `register()` 标记时触发的命令事件。继承 `SendCommandEvent`。

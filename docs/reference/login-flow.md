@@ -84,6 +84,8 @@ Each step can have:
 | `successWhen(Class, Predicate)` | No | Success condition on a different packet type |
 | `onSuccess(Consumer<T>)` | No | Callback when step succeeds |
 | `describe(String)` | No | Human-readable description |
+| `login()` | No | Marks this step as a login command; fires `SendLoginCommandEvent` |
+| `register()` | No | Marks this step as a register command; fires `SendRegisterCommandEvent` |
 
 ### Auto-advance (default)
 
@@ -185,7 +187,53 @@ This also fires the `onStateChange` callback and `LoginFlowEvent`.
 
 ---
 
-## 6. Full Example: 2b2t.xin Login
+## 6. Command Events
+
+When a step sends a command, LoginFlow can fire typed events that allow plugins to intercept, modify, or cancel the command.
+
+### Command Types
+
+| Method | Event Fired | Description |
+| :--- | :--- | :--- |
+| `login()` | `SendLoginCommandEvent` | Login command step |
+| `register()` | `SendRegisterCommandEvent` | Register command step |
+| (default) | `SendCommandEvent` | Generic command step |
+
+### Event Features
+
+All command events extend `SendCommandEvent` and implement `HasDefaultAction`:
+
+| Method | Description |
+| :--- | :--- |
+| `getCommand()` | Returns the command string |
+| `setCommand(String)` | Modifies the command before sending |
+| `isDefaultActionCancelled()` | Returns whether the command is cancelled |
+| `setDefaultActionCancelled(boolean)` | Cancels the command (prevents sending) |
+
+### Example: Intercept Login Command
+
+```java
+EventManager events = Bot.INSTANCE.getPluginManager().events();
+events.registerEvent(SendLoginCommandEvent.class, event -> {
+    log.info("Login command: {}", event.getCommand());
+    // Modify the command
+    event.setCommand(event.getCommand() + " extra");
+});
+```
+
+### Example: Cancel Registration in Certain Conditions
+
+```java
+events.registerEvent(SendRegisterCommandEvent.class, event -> {
+    if (someCondition) {
+        event.setDefaultActionCancelled(true); // Prevent registration
+    }
+});
+```
+
+---
+
+## 7. Full Example: 2b2t.xin Login
 
 ```java
 public class XinMetaPlugin implements MetaPlugin {
@@ -193,18 +241,33 @@ public class XinMetaPlugin implements MetaPlugin {
 
     @Override
     public void onEnable() {
+        // Register command event listeners
+        EventManager events = Bot.INSTANCE.getPluginManager().events();
+        events.registerEvent(SendLoginCommandEvent.class, e ->
+            log.info("Login command sent: {}", e.getCommand()));
+        events.registerEvent(SendRegisterCommandEvent.class, e ->
+            log.info("Register command sent: {}", e.getCommand()));
+
         loginFlow = LoginFlow.builder(Bot.INSTANCE::sendChatMessage)
             .templateExpander(t -> t.replace("{password}",
                 Bot.INSTANCE.getConfig().getConfigData().getAccount().getPassword()))
-            .eventManager(Bot.INSTANCE.getPluginManager().events())
+            .eventManager(events)
 
-            // Step 1: Register or login
+            // Step 1: Register
             .step(ClientboundSetTitleTextPacket.class)
                 .match(p -> p.toString().contains("注册"))
                 .then("reg {password} {password}")
+                .register()  // Fires SendRegisterCommandEvent
                 .describe("Register")
 
-            // Step 2: Wait for login success
+            // Step 2: Login (if already registered)
+            .step(ClientboundSetTitleTextPacket.class)
+                .match(p -> p.toString().contains("登陆"))
+                .then("l {password}")
+                .login()  // Fires SendLoginCommandEvent
+                .describe("Login")
+
+            // Step 3: Wait for login success
             .step(ClientboundSetTitleTextPacket.class)
                 .match(p -> p.toString().contains("登陆成功"))
                 .onSuccess(p -> log.info("Login successful"))
@@ -226,7 +289,7 @@ public class XinMetaPlugin implements MetaPlugin {
 
 ---
 
-## 7. API Reference
+## 8. API Reference
 
 ### `LoginFlow`
 
@@ -275,3 +338,34 @@ Fired via `EventManager` on every state transition when `eventManager` is set on
 | :--- | :--- | :--- |
 | `getStepIndex()` | `int` | The step index at the time of the transition. |
 | `getFlowState()` | `FlowState` | The new state after the transition. |
+
+### `SendCommandEvent`
+
+```java
+public class SendCommandEvent extends Event implements HasDefaultAction { ... }
+```
+
+Base event fired when a command is sent. Can be used to intercept or modify any command.
+
+| Method | Return | Description |
+| :--- | :--- | :--- |
+| `getCommand()` | `String` | The command string to be sent. |
+| `setCommand(String)` | `void` | Modifies the command before sending. |
+| `isDefaultActionCancelled()` | `boolean` | Returns whether the command is cancelled. |
+| `setDefaultActionCancelled(boolean)` | `void` | Cancels the command (prevents sending). |
+
+### `SendLoginCommandEvent`
+
+```java
+public class SendLoginCommandEvent extends SendCommandEvent { ... }
+```
+
+Fired when a step marked with `login()` sends a command. Extends `SendCommandEvent`.
+
+### `SendRegisterCommandEvent`
+
+```java
+public class SendRegisterCommandEvent extends SendCommandEvent { ... }
+```
+
+Fired when a step marked with `register()` sends a command. Extends `SendCommandEvent`.
