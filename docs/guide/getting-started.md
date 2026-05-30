@@ -9,7 +9,7 @@ Starting from version 2.0.0, Xinbot requires a **MetaPlugin** to handle server-s
 
 1. **Xinbot Core:** Get the latest client from GitHub Releases:
    [Xinbot Releases](https://github.com/huangdihd/xinbot/releases)
-   Download the file named `xinbot-[LATEST_VERSION].jar`.
+   Download the file named `<LatestVersion type="jar" fallback="xinbot-[VERSION].jar" />`.
 2. **MetaPlugin:** Download the MetaPlugin designed for your target server (e.g., 2b2t.xin):
    [xinMetaPlugin Releases](https://github.com/huangdihd/xinMetaPlugin/releases)  
    Check our [**Plugin List**](./plugin-list) to find a plugin compatible with your server.
@@ -62,13 +62,15 @@ Don't want to write HOCON manually? Use our [**Configuration Generator**](./conf
 
 Open your terminal, navigate to the JAR's directory, and execute:
 
-```bash
-# default config path: ./config.conf
-java -jar xinbot-[LATEST_VERSION].jar
-
-# or specify the config path manually
-java -jar xinbot-[LATEST_VERSION].jar /path/to/your/config.conf
+::: code-group
+```bash [Default config]
+java -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar
 ```
+
+```bash [Custom config]
+java -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar /path/to/your/config.conf
+```
+:::
 
 ## 5. Official Login (Optional)
 
@@ -80,13 +82,15 @@ If `onlineMode` is set to `true` and `fullSession` is null, the console will sho
 
 Xinbot automatically detects your language based on your system environment. If you need to manually force a specific language, you can add JVM parameters at startup:
 
-```bash
-# Force Simplified Chinese
-java -Duser.language=zh -Duser.country=CN -jar xinbot-[VERSION].jar
-
-# Force English
-java -Duser.language=en -Duser.country=US -jar xinbot-[VERSION].jar
+::: code-group
+```bash [Simplified Chinese]
+java -Duser.language=zh -Duser.country=CN -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar
 ```
+
+```bash [English]
+java -Duser.language=en -Duser.country=US -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar
+```
+:::
 
 ---
 

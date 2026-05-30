@@ -1,0 +1,42 @@
+name: Update Version from Xinbot Release
+
+on:
+  repository_dispatch:
+    types: [update_version]
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update version.json
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+          DOWNLOAD_URL: ${{ github.event.client_payload.download_url }}
+          RELEASE_URL: ${{ github.event.client_payload.release_url }}
+        run: |
+          # Update version.json with new version info
+          cat > docs/public/data/version.json << EOF
+          {
+            "latest_version": "${VERSION}",
+            "download_url": "${DOWNLOAD_URL}",
+            "release_url": "${RELEASE_URL}",
+            "updated_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          }
+          EOF
+          
+          echo "Updated version.json to version ${VERSION}"
+
+      - name: Commit and push changes
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/public/data/version.json
+          git commit -m "chore: update version to ${VERSION} [skip ci]" || exit 0
+          git push

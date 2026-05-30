@@ -9,7 +9,7 @@
 
 1. **Xinbot 核心：** 前往 GitHub Releases 获取最新版本的核心 JAR 文件：
    [Xinbot Releases](https://github.com/huangdihd/xinbot/releases)
-   下载名为 `xinbot-[最新版本号].jar` 的文件。
+   下载名为 `<LatestVersion type="jar" fallback="xinbot-[版本号].jar" />` 的文件。
 2. **元插件：** 获取适配您目标服务器（如 `2b2t.xin`）的元插件：
    [xinMetaPlugin Releases](https://github.com/huangdihd/xinMetaPlugin/releases)  
    查看 [**插件列表**](./plugin-list) 以获取更多适配不同服务器的插件。
@@ -62,13 +62,15 @@ java -version
 
 使用命令行进入 JAR 文件所在的目录，执行：
 
-```bash
-# 默认使用同目录下的 config.conf
-java -jar xinbot-[最新版本号].jar
-
-# 或者手动指定配置文件路径
-java -jar xinbot-[最新版本号].jar /path/to/your/config.conf
+::: code-group
+```bash [默认配置]
+java -jar xinbot-<LatestVersion type="version" fallback="[版本号]" />.jar
 ```
+
+```bash [指定配置]
+java -jar xinbot-<LatestVersion type="version" fallback="[版本号]" />.jar /path/to/your/config.conf
+```
+:::
 
 ## 5. 正版登录（可选）
 
@@ -80,13 +82,15 @@ java -jar xinbot-[最新版本号].jar /path/to/your/config.conf
 
 Xinbot 会根据你的系统环境自动检测语言。如果你需要手动强制指定界面语言，可以在启动时添加 JVM 参数：
 
-```bash
-# 强制使用简体中文
-java -Duser.language=zh -Duser.country=CN -jar xinbot-[版本号].jar
-
-# 强制使用英文
-java -Duser.language=en -Duser.country=US -jar xinbot-[版本号].jar
+::: code-group
+```bash [简体中文]
+java -Duser.language=zh -Duser.country=CN -jar xinbot-<LatestVersion type="version" fallback="[版本号]" />.jar
 ```
+
+```bash [English]
+java -Duser.language=en -Duser.country=US -jar xinbot-<LatestVersion type="version" fallback="[版本号]" />.jar
+```
+:::
 
 ---
 

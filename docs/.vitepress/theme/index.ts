@@ -4,6 +4,7 @@ import ConfigGenerator from './components/ConfigGenerator.vue'
 import PluginYmlGenerator from './components/PluginYmlGenerator.vue'
 import CommandsYmlGenerator from './components/CommandsYmlGenerator.vue'
 import PluginList from './components/PluginList.vue'
+import LatestVersion from './components/LatestVersion.vue'
 
 export default {
   extends: DefaultTheme,
@@ -13,5 +14,6 @@ export default {
     app.component('PluginYmlGenerator', PluginYmlGenerator)
     app.component('CommandsYmlGenerator', CommandsYmlGenerator)
     app.component('PluginList', PluginList)
+    app.component('LatestVersion', LatestVersion)
   }
 }
