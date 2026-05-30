@@ -87,5 +87,13 @@
     "owner": "2698269088",
     "url": "https://github.com/2698269088/XinBls",
     "desc": "用于存储XinBot的终端输出信息"
+  },
+  {
+    "name": "ChatFilter",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "newPlayerAL",
+    "url": "https://github.com/newPlayerAL/ChatFilter",
+    "desc": "A [Xinbot](https://github.com/huangdihd/xinbot) plugin that cleans up received chat on your console: it censors profanity in place and hides repeated / similar spam."
   }
 ]
