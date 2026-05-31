@@ -95,5 +95,13 @@
     "owner": "newPlayerAL",
     "url": "https://github.com/newPlayerAL/ChatFilter",
     "desc": "A [Xinbot](https://github.com/huangdihd/xinbot) plugin that cleans up received chat on your console: it censors profanity in place and hides repeated / similar spam."
+  },
+  {
+    "name": "4d4vMetaPlugin",
+    "type": "PLUGIN",
+    "servers": "4d4v.top",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/4d4vMetaPlugin",
+    "desc": "A meta plugin for 4d4v.top"
   }
 ]
