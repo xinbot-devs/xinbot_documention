@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 
 const props = defineProps({
   type: {
@@ -47,6 +47,18 @@ onMounted(async () => {
     const response = await fetch('/data/version.json')
     if (!response.ok) throw new Error('Failed to fetch version')
     versionData.value = await response.json()
+    
+    // Globally replace placeholders in code blocks after a short delay to ensure they are rendered
+    await nextTick()
+    setTimeout(() => {
+      const v = versionData.value.latest_version
+      document.querySelectorAll('code').forEach(el => {
+        if (el.innerText.includes('[VERSION]') || el.innerText.includes('[版本号]')) {
+          el.innerHTML = el.innerHTML.replace(/\[VERSION\]/g, v).replace(/\[版本号\]/g, v)
+        }
+      })
+    }, 100)
+    
   } catch (e) {
     console.error('Failed to load version data:', e)
     error.value = true

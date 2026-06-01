@@ -9,7 +9,7 @@ Starting from version 2.0.0, Xinbot requires a **MetaPlugin** to handle server-s
 
 1. **Xinbot Core:** Get the latest client from GitHub Releases:
    [Xinbot Releases](https://github.com/huangdihd/xinbot/releases)
-   Download the file named `<LatestVersion type="jar" fallback="xinbot-[VERSION].jar" />`.
+   Download the file named <LatestVersion type="jar" fallback="xinbot-[VERSION].jar" />.
 2. **MetaPlugin:** Download the MetaPlugin designed for your target server (e.g., 2b2t.xin):
    [xinMetaPlugin Releases](https://github.com/huangdihd/xinMetaPlugin/releases)  
    Check our [**Plugin List**](./plugin-list) to find a plugin compatible with your server.
@@ -64,11 +64,11 @@ Open your terminal, navigate to the JAR's directory, and execute:
 
 ::: code-group
 ```bash [Default config]
-java -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar
+java -jar xinbot-[VERSION].jar
 ```
 
 ```bash [Custom config]
-java -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar /path/to/your/config.conf
+java -jar xinbot-[VERSION].jar /path/to/your/config.conf
 ```
 :::
 
@@ -84,15 +84,14 @@ Xinbot automatically detects your language based on your system environment. If 
 
 ::: code-group
 ```bash [Simplified Chinese]
-java -Duser.language=zh -Duser.country=CN -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar
+java -Duser.language=zh -Duser.country=CN -jar xinbot-[VERSION].jar
 ```
 
 ```bash [English]
-java -Duser.language=en -Duser.country=US -jar xinbot-<LatestVersion type="version" fallback="[VERSION]" />.jar
+java -Duser.language=en -Duser.country=US -jar xinbot-[VERSION].jar
 ```
 :::
 
 ---
 
 Next, you can check the [Usage Guide](./usage) to learn how to control your bot.
-
