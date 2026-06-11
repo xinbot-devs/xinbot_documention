@@ -40,6 +40,8 @@ Xinbot 命令可以直接在控制台中输入（不区分大小写）。
 - `pm unload <插件名>`: 卸载插件。
 - `pm reload <插件名>`: 重载插件。
 
+> ⚠️ Bot 运行期间，元插件及其（直接或传递）依赖的插件无法被卸载——`pm unload` 会拒绝并报错 *(自 2.3.2)*。
+
 ## 3. 进阶功能
 
 ### Tab 补全
@@ -52,7 +54,46 @@ Xinbot 命令可以直接在控制台中输入（不区分大小写）。
 若要发送 `/w` 等服务器原版指令，**必须**加 `cmd` 前缀：
 > `cmd w <用户名> <消息>`
 
-## 4. 使用技巧
+## 4. 整合包 (Modpack) *(自 2.3.0)*
+
+**整合包**将一组插件和语言文件打包为单个 `.zip`，让一套开箱即用的配置可以一步分享、一步安装。整合包永远不会包含 `config.conf`，因此账号凭据和会话信息不会被打包带走。
+
+### 压缩包结构
+
+```
+example-modpack.zip
+├── modpack.yml          # 清单文件（name 和 version 必填）
+├── plugins/             # 插件 jar -> 安装到插件目录
+│   └── *.jar
+└── lang/                # 可选的 .lang 语言覆盖 -> 安装到 ./lang/
+    └── *.lang
+```
+
+### modpack.yml
+
+```yaml
+name: "2b2t.xin Survival Pack"   # 必填
+version: "1.0.0"                 # 必填
+author: "huangdihd"              # 可选
+description: "..."               # 可选
+xinbotVersion: ">=2.2.0"         # 可选，仅作提示
+plugins: [PluginA, PluginB]      # 可选，仅作提示
+```
+
+### CLI 子命令
+
+以下命令以一次性命令的方式运行（不会启动 Bot）：
+
+```bash
+java -jar xinbot.jar --install <file.zip>       # 安装整合包到 ./plugin 和 ./lang
+java -jar xinbot.jar --export <out.zip>         # 将当前插件和语言文件打包为整合包
+java -jar xinbot.jar --modpack-info <file.zip>  # 查看整合包的清单信息
+java -jar xinbot.jar --help                     # 列出所有子命令
+```
+
+安装时会覆盖同名的已有文件（并输出警告），并忽略 `plugins/` 和 `lang/` 以外的任何压缩包条目。插件目录优先从 `config.conf` 中读取，否则使用默认的 `plugin/`。
+
+## 5. 使用技巧
 
 - **管理员设置**: 确保 `config.conf` 中的 `owner` 字段正确设置。
 - **自动处理**: 使用 `cmd` 发送指令时，无需手动输入开头的 `/`。

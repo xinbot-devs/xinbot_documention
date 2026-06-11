@@ -40,6 +40,8 @@ Xinbot commands can be executed directly in the console (case-insensitive).
 - `pm unload <name>`: Unloads a plugin.
 - `pm reload <name>`: Reloads a plugin.
 
+> ⚠️ While the bot is running, the MetaPlugin and any plugin it (transitively) depends on cannot be unloaded — `pm unload` will refuse with an error *(since 2.3.2)*.
+
 ## 3. Advanced Features
 
 ### Tab Completion
@@ -52,7 +54,46 @@ Valid commands/arguments appear in specific colors, while unrecognized ones appe
 To send a command like `/w`, **must** use the `cmd` prefix:
 > `cmd w <username> <message>`
 
-## 4. Quick Tips
+## 4. Modpacks *(since 2.3.0)*
+
+A **modpack** bundles a set of plugins and language files into a single `.zip`, so a ready-to-use setup can be shared and installed in one step. A modpack never contains `config.conf`, so account credentials and sessions are never shipped.
+
+### Archive Layout
+
+```
+example-modpack.zip
+├── modpack.yml          # manifest (name & version required)
+├── plugins/             # plugin jars -> installed into the plugin directory
+│   └── *.jar
+└── lang/                # optional .lang overrides -> installed into ./lang/
+    └── *.lang
+```
+
+### modpack.yml
+
+```yaml
+name: "2b2t.xin Survival Pack"   # required
+version: "1.0.0"                 # required
+author: "huangdihd"              # optional
+description: "..."               # optional
+xinbotVersion: ">=2.2.0"         # optional, informational
+plugins: [PluginA, PluginB]      # optional, informational
+```
+
+### CLI Sub-commands
+
+These run as one-off commands instead of starting the bot:
+
+```bash
+java -jar xinbot.jar --install <file.zip>       # install a modpack into ./plugin and ./lang
+java -jar xinbot.jar --export <out.zip>         # pack current plugins + lang files into a modpack
+java -jar xinbot.jar --modpack-info <file.zip>  # print a modpack's manifest
+java -jar xinbot.jar --help                     # list all sub-commands
+```
+
+Installing overwrites existing files of the same name (with a warning) and ignores any archive entry outside `plugins/` and `lang/`. The plugin directory is read from `config.conf` when present, otherwise the default `plugin/` is used.
+
+## 5. Quick Tips
 
 - **Owner Configuration**: Ensure the `owner` field in `config.conf` matches your Minecraft username.
 - **Auto-slash**: The console handles the `/` prefix automatically when using `cmd`.

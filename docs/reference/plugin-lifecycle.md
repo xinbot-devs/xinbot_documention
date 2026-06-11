@@ -84,8 +84,9 @@ Xinbot uses a `plugin.yml` file to discover plugins and manage their dependencie
 name: MyPlugin
 main: com.example.plugin.MyPlugin
 version: 1.0.0
-# depend: [OtherPluginName] # Optional: list of plugin names this plugin depends on
-# type: PLUGIN              # Optional: use META_PLUGIN for meta-plugins handling server logic
+# depend: [OtherPluginName]         # Optional: list of plugin names this plugin depends on
+# softdepend: [OptionalPluginName]  # Optional: like depend, but the plugin still loads if missing
+# type: PLUGIN                      # Optional: use META_PLUGIN for meta-plugins handling server logic
 ```
 
 ### Supported Fields
@@ -93,7 +94,10 @@ version: 1.0.0
 *   **`main`**: (Required) The fully qualified name of your main class.
 *   **`version`**: (Optional) The version of your plugin. Defaults to `1.0.0`.
 *   **`depend`**: (Optional) A string or list of strings representing the names of plugins that must be loaded before this one.
+*   **`softdepend`**: (Optional) A string or list of strings naming **optional** dependencies *(since 2.3.1)*. If a soft dependency is present, it is loaded first and its classes are visible to your plugin — exactly like `depend`. If it is missing, your plugin still loads normally (the console logs an info message about the missing soft dependency).
 *   **`type`**: (Optional) Defines the plugin type (`PLUGIN` or `META_PLUGIN`). Ordinary plugins should omit this or set it to `PLUGIN`.
+
+> 💡 **Runtime loading:** Since 2.3.2, plugins loaded at runtime via `pm load` / `pm reload` get the same dependency classloader chain as plugins loaded at startup, so `depend` / `softdepend` classes are visible either way.
 
 ---
 

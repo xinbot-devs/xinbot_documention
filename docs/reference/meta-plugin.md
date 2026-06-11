@@ -84,7 +84,14 @@ version: 1.0.0
 type: META_PLUGIN
 ```
 
-## 3. Handling Server-Specific Logic
+## 3. MetaPlugin Dependencies *(since 2.3.2)*
+
+A MetaPlugin can declare `depend` / `softdepend` in its `plugin.yml`, just like a regular plugin (for example, to reuse a shared library plugin). Dependencies of a MetaPlugin get special treatment:
+
+*   **Enable order**: When the bot starts, the MetaPlugin's (transitive) dependencies are enabled first — in dependency order — before the MetaPlugin itself.
+*   **Unload protection**: While the bot is running, any plugin the MetaPlugin (transitively) depends on cannot be unloaded via `pm unload`, since that would tear down the MetaPlugin's classloader chain. The same restriction that already applies to the MetaPlugin itself extends to its whole dependency chain.
+
+## 4. Handling Server-Specific Logic
 
 The main purpose of a MetaPlugin is to encapsulate logic that is unique to a specific Minecraft server:
 

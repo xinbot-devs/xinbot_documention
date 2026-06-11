@@ -19,6 +19,8 @@ const t = computed(() => {
     depend: isZh ? '依赖项' : 'Dependencies',
     dependPlaceholder: isZh ? '如 PluginA' : 'e.g. PluginA',
     dependAdd: isZh ? '添加依赖' : 'Add Dependency',
+    softDepend: isZh ? '软依赖项' : 'Soft Dependencies',
+    softDependAdd: isZh ? '添加软依赖' : 'Add Soft Dependency',
     type: isZh ? '插件类型' : 'Plugin Type',
     optional: isZh ? '（可选）' : ' (Optional)',
     preview: isZh ? '实时预览' : 'Live Preview',
@@ -33,6 +35,7 @@ const config = reactive({
   main: '',
   version: '1.0.0',
   depend: [],
+  softdepend: [],
   type: 'PLUGIN'
 })
 
@@ -42,6 +45,14 @@ const addDepend = () => {
 
 const removeDepend = (index) => {
   config.depend.splice(index, 1)
+}
+
+const addSoftDepend = () => {
+  config.softdepend.push('')
+}
+
+const removeSoftDepend = (index) => {
+  config.softdepend.splice(index, 1)
 }
 
 const isValid = computed(() => {
@@ -60,6 +71,13 @@ const generatedYaml = computed(() => {
     const deps = config.depend.map(d => d.trim()).filter(d => d !== '')
     if (deps.length > 0) {
       yaml += `depend: [${deps.join(', ')}]\n`
+    }
+  }
+
+  if (config.softdepend.length > 0) {
+    const softDeps = config.softdepend.map(d => d.trim()).filter(d => d !== '')
+    if (softDeps.length > 0) {
+      yaml += `softdepend: [${softDeps.join(', ')}]\n`
     }
   }
 
@@ -104,6 +122,14 @@ const copyToClipboard = () => {
           <button @click="removeDepend(index)" class="remove-btn" title="Remove">×</button>
         </div>
         <button @click="addDepend" class="add-btn">+ {{ t.dependAdd }}</button>
+      </div>
+      <div class="field">
+        <label>{{ t.softDepend }}{{ t.optional }}</label>
+        <div v-for="(dep, index) in config.softdepend" :key="index" class="list-item">
+          <input v-model="config.softdepend[index]" type="text" :placeholder="t.dependPlaceholder" />
+          <button @click="removeSoftDepend(index)" class="remove-btn" title="Remove">×</button>
+        </div>
+        <button @click="addSoftDepend" class="add-btn">+ {{ t.softDependAdd }}</button>
       </div>
       <div class="field">
         <label>{{ t.type }}{{ t.optional }}</label>
