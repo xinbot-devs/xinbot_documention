@@ -1,5 +1,7 @@
-name: Delete Merged Branch
+name: Delete Plugin Branch on Close
 
+# Auto-generated add-plugin branches are disposable: clean them up whenever
+# their PR is closed, merged or not.
 on:
   pull_request:
     types: [closed]

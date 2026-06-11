@@ -98,7 +98,7 @@
   },
   {
     "name": "4d4vMetaPlugin",
-    "type": "PLUGIN",
+    "type": "META_PLUGIN",
     "servers": "4d4v.top",
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/4d4vMetaPlugin",

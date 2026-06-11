@@ -4,6 +4,11 @@ on:
   repository_dispatch:
     types: [update_version]
 
+# Serialize runs so two releases in quick succession don't race on the push
+concurrency:
+  group: update-version
+  cancel-in-progress: false
+
 jobs:
   update-version:
     runs-on: ubuntu-latest
@@ -19,16 +24,15 @@ jobs:
           DOWNLOAD_URL: ${{ github.event.client_payload.download_url }}
           RELEASE_URL: ${{ github.event.client_payload.release_url }}
         run: |
-          # Update version.json with new version info
-          cat > docs/public/data/version.json << EOF
-          {
-            "latest_version": "${VERSION}",
-            "download_url": "${DOWNLOAD_URL}",
-            "release_url": "${RELEASE_URL}",
-            "updated_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-          }
-          EOF
-          
+          # Generate version.json with jq so payload values always produce valid JSON
+          jq -n \
+            --arg latest_version "$VERSION" \
+            --arg download_url "$DOWNLOAD_URL" \
+            --arg release_url "$RELEASE_URL" \
+            --arg updated_at "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
+            '{latest_version: $latest_version, download_url: $download_url, release_url: $release_url, updated_at: $updated_at}' \
+            > docs/public/data/version.json
+
           echo "Updated version.json to version ${VERSION}"
 
       - name: Commit and push changes

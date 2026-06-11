@@ -58,14 +58,20 @@ jobs:
         run: |
           NAME=$(echo "$ISSUE_JSON" | jq -r '.plugin_name' | tr -d '\n\r')
           URL=$(echo "$ISSUE_JSON" | jq -r '.source_url' | tr -d '\n\r')
-          DESC=$(echo "$ISSUE_JSON" | jq -r '.description' | tr -d '\n\r')
+          # Flatten multi-line descriptions to spaces instead of gluing words together
+          DESC=$(echo "$ISSUE_JSON" | jq -r '.description' | tr '\n\r' ' ')
           SERVER=$(echo "$ISSUE_JSON" | jq -r '.server_supported // ""' | tr -d '\n\r')
-          
+
           if [ -z "$NAME" ] || [ "$NAME" == "null" ]; then
             echo "Error: Could not parse issue data."
             exit 1
           fi
-          
+
+          if jq -e --arg name "$NAME" 'any(.[]; .name == $name)' docs/public/data/plugins.json > /dev/null; then
+            echo "Error: plugin '$NAME' is already in the plugin list."
+            exit 1
+          fi
+
           if [[ $URL =~ github\.com/([^/]+)/ ]]; then
             OWNER="${BASH_REMATCH[1]}"
           else
