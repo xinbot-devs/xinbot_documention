@@ -37,3 +37,11 @@ features:
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
 }
 </style>
+
+## 💬 加入社区
+
+遇到问题、展示你的插件、或者只是想聊聊天?欢迎加入:
+
+- **QQ 群**: `434173700` — 用户与玩家交流主群
+- **Telegram**: [t.me/xinbot_develop](https://t.me/xinbot_develop)
+- **GitHub**: [问题反馈与讨论](https://github.com/huangdihd/xinbot/issues)

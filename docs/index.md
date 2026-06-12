@@ -37,3 +37,11 @@ features:
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
 }
 </style>
+
+## 💬 Community
+
+Questions, plugin showcases, or just want to hang out? Join us:
+
+- **QQ Group**: `434173700` — main community for users and players
+- **Telegram**: [t.me/xinbot_develop](https://t.me/xinbot_develop)
+- **GitHub**: [Issues & Discussions](https://github.com/huangdihd/xinbot/issues)

@@ -165,7 +165,7 @@ export default defineConfig({
       { icon: 'telegram', link: 'https://t.me/xinbot_develop' }
     ],
     footer: {
-      message: 'Released under the GPL-3.0 License.',
+      message: 'QQ Group: 434173700 · <a href="https://t.me/xinbot_develop" target="_blank">Telegram</a> · Released under the GPL-3.0 License.',
       copyright: 'Copyright © 2024-present huangdihd'
     },
     search: {
