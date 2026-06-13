@@ -103,5 +103,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/4d4vMetaPlugin",
     "desc": "A meta plugin for 4d4v.top"
+  },
+  {
+    "name": "LanConnect",
+    "type": "META_PLUGIN",
+    "servers": "all（根据配置决定）",
+    "owner": "2698269088",
+    "url": "https://github.com/2698269088/Xin-LanConnect",
+    "desc": "LanConnect 是一个基于规则链（RuleChain）系统的 XinBot 元插件，通过编写不同的规则和动作，来适配不同的服务器/ "
   }
 ]
