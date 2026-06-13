@@ -6,7 +6,11 @@
 
 ## 1. 创建元插件
 
-开发元插件与开发普通插件非常相似，唯一的区别是你的主类必须实现 `xin.bbtt.mcbot.plugin.MetaPlugin` 接口，而不是普通的 `Plugin` 接口。
+开发元插件与开发普通插件非常相似，唯一的区别是你的主类必须实现 [`xin.bbtt.mcbot.plugin.MetaPlugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/MetaPlugin.java) 接口，而不是普通的 [`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) 接口。
+
+::: info 📄 源码参考
+插件体系位于 [`plugin/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/plugin) 包（[`MetaPlugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/MetaPlugin.java)、[`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java)、[`PluginManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginManager.java)），群组服状态枚举见 [`Server`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Server.java)。
+:::
 
 ```java
 package com.example.metaplugin;

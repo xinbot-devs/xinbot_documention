@@ -4,6 +4,10 @@ Xinbot 2.x introduces significant architectural improvements, especially to the 
 
 This guide outlines the breaking changes and how to migrate your existing plugins.
 
+::: info 📄 Source
+Core classes referenced on this page: [`Bot`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Bot.java), [`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java), [`Command`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/Command.java), [`CommandManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandManager.java).
+:::
+
 ## 1. Core API Changes
 
 ### Bot Instance Access
@@ -43,7 +47,7 @@ Xinbot 2.x introduces a robust dependency resolution system. If your plugin depe
 name: MyPlugin
 version: 1.0.0
 main: com.example.MyPlugin
-depends:
+depend:
   - OtherPlugin
 ```
 The plugin manager will ensure that dependencies are loaded before your plugin.

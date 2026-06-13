@@ -4,6 +4,10 @@ Xinbot 2.x 在架构上进行了重大改进，特别是插件系统和命令系
 
 本指南概述了破坏性更新以及如何迁移您现有的插件。
 
+::: info 📄 源码参考
+本页涉及的核心类：[`Bot`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Bot.java)、[`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java)、[`Command`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/Command.java)、[`CommandManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandManager.java)。
+:::
+
 ## 1. 核心 API 变更
 
 ### Bot 实例访问
@@ -43,7 +47,7 @@ Xinbot 2.x 引入了强大的依赖解析系统。如果您的插件依赖于另
 name: MyPlugin
 version: 1.0.0
 main: com.example.MyPlugin
-depends:
+depend:
   - OtherPlugin
 ```
 插件管理器将确保在加载您的插件之前先加载其依赖项。

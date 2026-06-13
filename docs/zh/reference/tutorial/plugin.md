@@ -43,11 +43,11 @@ public class OwnerPMPlugin implements Plugin {
 
 ## 涉及的 Xinbot 组件
 
-*   **`Plugin`**: 所有 Xinbot 插件都必须实现的核心接口 (`xin.bbtt.mcbot.plugin.Plugin`)。它定义了诸如 `onLoad`、`onEnable`、`onDisable` 和 `onUnload` 等生命周期钩子，Xinbot 会在特定时间调用这些钩子。
+*   **[`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java)**: 所有 Xinbot 插件都必须实现的核心接口 (`xin.bbtt.mcbot.plugin.Plugin`)。它定义了诸如 `onLoad`、`onEnable`、`onDisable` 和 `onUnload` 等生命周期钩子，Xinbot 会在特定时间调用这些钩子。
 *   **`onEnable()`**: 当 Xinbot 完全连接并准备好启用插件时，会调用此生命周期方法。这是注册监听器和命令，或者初始化循环任务的标准位置。
 *   **`Bot.INSTANCE.getPluginManager().events().registerEvents(...)`**: 
-    *   `getPluginManager()` 获取负责监督所有已加载插件的 `PluginManager`（插件管理器）。
-    *   `.events()` 访问事件管理器（`EventManager`）。
+    *   `getPluginManager()` 获取负责监督所有已加载插件的 [`PluginManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginManager.java)（插件管理器）。
+    *   `.events()` 访问事件管理器（[`EventManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/event/EventManager.java)）。
     *   `registerEvents(listener, this)` 指示 EventManager 扫描提供的 `listener` 对象，寻找带有 `@EventHandler` 的方法，并将它们注册到 `this`（当前插件）的上下文中。
 
 接下来，我们将在 [下一步：编写事件监听器类](./listener.md) 中实现这个功能。

@@ -28,7 +28,11 @@ Xinbot is hosted on JitPack. Add the repository and dependency to your build fil
 
 ## 2. Main Plugin Class
 
-Every plugin must implement the `xin.bbtt.mcbot.plugin.Plugin` interface. Thanks to Java 8+ default methods, you only need to override the necessary lifecycle hooks.
+Every plugin must implement the [`xin.bbtt.mcbot.plugin.Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) interface. Thanks to Java 8+ default methods, you only need to override the necessary lifecycle hooks.
+
+::: info 📄 Source
+The [`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) interface and the lifecycle/dependency loading logic ([`PluginManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginManager.java), [`PluginClassLoader`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginClassLoader.java)) all live in the [`plugin/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/plugin) package.
+:::
 
 ```java
 package com.example.plugin;

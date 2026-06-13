@@ -4,15 +4,19 @@ Xinbot features a powerful JLine-based console system with advanced visual feedb
 
 ## 1. Executor Overview
 
-Xinbot provides several abstract classes to handle different command requirements. All executors inherit from the base `CommandExecutor`.
+Xinbot provides several abstract classes to handle different command requirements. All executors inherit from the base [`CommandExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandExecutor.java).
+
+::: info 📄 Source
+The command abstract classes and runtime live in the [`command/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/command) package, where [`CommandManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandManager.java) parses `commands.yml` and registers the commands.
+:::
 
 | Class | Purpose | Methods to Implement |
 | :--- | :--- | :--- |
-| `CommandExecutor` | Basic command logic | `onCommand` |
-| `TabExecutor` | Adds tab completion | `onCommand`, `onTabComplete` |
-| `HighlightExecutor` | Adds syntax highlighting | `onCommand`, `onHighlight` |
-| `TabHighlightExecutor` | Full-featured command | `onCommand`, `onTabComplete`, `onHighlight` |
-| `SubCommandExecutor` | Command with sub-commands | `registerSubCommand` |
+| [`CommandExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandExecutor.java) | Basic command logic | `onCommand` |
+| [`TabExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/TabExecutor.java) | Adds tab completion | `onCommand`, `onTabComplete` |
+| [`HighlightExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/HighlightExecutor.java) | Adds syntax highlighting | `onCommand`, `onHighlight` |
+| [`TabHighlightExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/TabHighlightExecutor.java) | Full-featured command | `onCommand`, `onTabComplete`, `onHighlight` |
+| [`SubCommandExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/SubCommandExecutor.java) | Command with sub-commands | `registerSubCommand` |
 
 ---
 

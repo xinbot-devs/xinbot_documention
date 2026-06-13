@@ -6,7 +6,11 @@ A Xinbot instance **must** have exactly one MetaPlugin loaded to run properly.
 
 ## 1. Creating a MetaPlugin
 
-Developing a MetaPlugin is similar to developing a regular plugin, but your main class must implement the `xin.bbtt.mcbot.plugin.MetaPlugin` interface instead of the regular `Plugin` interface.
+Developing a MetaPlugin is similar to developing a regular plugin, but your main class must implement the [`xin.bbtt.mcbot.plugin.MetaPlugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/MetaPlugin.java) interface instead of the regular [`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) interface.
+
+::: info 📄 Source
+The plugin system lives in the [`plugin/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/plugin) package ([`MetaPlugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/MetaPlugin.java), [`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java), [`PluginManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginManager.java)); the group-server state enum is [`Server`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Server.java).
+:::
 
 ```java
 package com.example.metaplugin;

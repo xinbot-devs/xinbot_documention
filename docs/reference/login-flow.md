@@ -2,6 +2,10 @@
 
 LoginFlow is a declarative, builder-based state machine for MetaPlugins. It replaces scattered `SessionAdapter` listeners and static boolean flags with a clean, chain-style API.
 
+::: info 📄 Source
+The state machine and builders live in the [`LoginFlow/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/LoginFlow) package ([`LoginFlow`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/LoginFlow/LoginFlow.java), [`LoginFlowBuilder`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/LoginFlow/LoginFlowBuilder.java), [`LoginFlowStep`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/LoginFlow/LoginFlowStep.java)); the related command events ([`SendCommandEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/SendCommandEvent.java), [`SendLoginCommandEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/SendLoginCommandEvent.java), [`SendRegisterCommandEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/SendRegisterCommandEvent.java), [`LoginFlowEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/LoginFlowEvent.java)) live in the [`events/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/events) package.
+:::
+
 ## 1. Why LoginFlow?
 
 **Before LoginFlow** — each login step is a separate listener with implicit state:

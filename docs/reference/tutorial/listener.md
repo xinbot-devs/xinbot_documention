@@ -38,10 +38,10 @@ public class OwnerPMListener implements Listener {
 
 ## Xinbot Components Used
 
-*   **`Listener`**: A marker interface from `xin.bbtt.mcbot.event.Listener`. Implementing this interface tells Xinbot that this class is intended to contain event handling methods.
-*   **`@EventHandler`**: An annotation used to mark a specific method as an event handler. When an event occurs, Xinbot's EventManager looks for methods with this annotation that take the corresponding event type as their parameter.
-*   **`PrivateChatEvent`**: Represents an incoming private message (whisper) from the server. It contains information such as the `GameProfile` of the sender and the `String` content of the message.
-*   **`Bot.INSTANCE`**: The singleton instance of the main `Bot` class. This is the central access point for interacting with Xinbot's core systems (like sending messages, accessing managers, or disconnecting).
-*   **`Bot.INSTANCE.getCommandManager().callCommand(...)`**: The `CommandManager` handles all registered commands. `callCommand` executes built-in or plugin-provided Xinbot commands locally (such as `list`, `stop`, or `plugins`).
+*   **[`Listener`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/event/Listener.java)**: A marker interface from `xin.bbtt.mcbot.event.Listener`. Implementing this interface tells Xinbot that this class is intended to contain event handling methods.
+*   **[`@EventHandler`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/event/EventHandler.java)**: An annotation used to mark a specific method as an event handler. When an event occurs, Xinbot's EventManager looks for methods with this annotation that take the corresponding event type as their parameter.
+*   **[`PrivateChatEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/PrivateChatEvent.java)**: Represents an incoming private message (whisper) from the server. It contains information such as the `GameProfile` of the sender and the `String` content of the message.
+*   **[`Bot.INSTANCE`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Bot.java)**: The singleton instance of the main `Bot` class. This is the central access point for interacting with Xinbot's core systems (like sending messages, accessing managers, or disconnecting).
+*   **`Bot.INSTANCE.getCommandManager().callCommand(...)`**: The [`CommandManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandManager.java) handles all registered commands. `callCommand` executes built-in or plugin-provided Xinbot commands locally (such as `list`, `stop`, or `plugins`).
 
 Congratulations on completing the tutorial! You can now explore the [Advanced APIs](../index.md) to learn more.

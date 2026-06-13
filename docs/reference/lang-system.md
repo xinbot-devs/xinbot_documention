@@ -4,7 +4,7 @@ Xinbot provides a comprehensive internationalization (i18n) system, allowing plu
 
 ## 1. Basic Usage
 
-`LangManager` is the core class for handling all text translations. Use the `LangManager.get()` method to retrieve translated strings.
+[`LangManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/LangManager.java) is the core class for handling all text translations. Use the `LangManager.get()` method to retrieve translated strings.
 
 ### Getting Translations
 ```java

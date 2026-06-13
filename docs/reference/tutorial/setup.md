@@ -39,7 +39,7 @@ main: com.example.pmbot.OwnerPMPlugin
 
 ## Xinbot Components Used
 
-*   **`plugin.yml`**: This is the metadata file read by Xinbot during the loading phase. It tells Xinbot the `name` of your plugin, the `version`, and most importantly, the `main` class (the one implementing the `Plugin` interface) that Xinbot needs to instantiate to start your plugin.
+*   **`plugin.yml`**: This is the metadata file read by Xinbot during the loading phase. It tells Xinbot the `name` of your plugin, the `version`, and most importantly, the `main` class (the one implementing the [`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) interface) that Xinbot needs to instantiate to start your plugin.
 
 ## Separation of Concerns
 

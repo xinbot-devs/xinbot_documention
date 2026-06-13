@@ -39,7 +39,7 @@ main: com.example.pmbot.OwnerPMPlugin
 
 ## 涉及的 Xinbot 组件
 
-*   **`plugin.yml`**: 这是 Xinbot 在加载阶段读取的元数据文件。它告诉 Xinbot 插件的 `name`（名称）、`version`（版本），以及最重要的 `main`（主类）的完整路径，Xinbot 需要实例化这个实现了 `Plugin` 接口的主类来启动您的插件。
+*   **`plugin.yml`**: 这是 Xinbot 在加载阶段读取的元数据文件。它告诉 Xinbot 插件的 `name`（名称）、`version`（版本），以及最重要的 `main`（主类）的完整路径，Xinbot 需要实例化这个实现了 [`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) 接口的主类来启动您的插件。
 
 ## 类结构说明
 

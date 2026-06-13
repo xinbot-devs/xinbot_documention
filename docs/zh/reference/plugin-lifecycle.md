@@ -29,7 +29,11 @@ Xinbot 托管在 JitPack 上。你需要将其添加到构建配置文件中。
 
 ## 2. 插件主类
 
-每个插件都必须实现 `xin.bbtt.mcbot.plugin.Plugin` 接口。得益于 Java 8+ 的默认方法，你只需要重写必要的生命周期钩子。
+每个插件都必须实现 [`xin.bbtt.mcbot.plugin.Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) 接口。得益于 Java 8+ 的默认方法，你只需要重写必要的生命周期钩子。
+
+::: info 📄 源码参考
+[`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java) 接口与生命周期/依赖的加载逻辑（[`PluginManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginManager.java)、[`PluginClassLoader`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginClassLoader.java)）都位于 [`plugin/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/plugin) 包。
+:::
 
 ```java
 package com.example.plugin;

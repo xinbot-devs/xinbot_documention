@@ -38,10 +38,10 @@ public class OwnerPMListener implements Listener {
 
 ## 涉及的 Xinbot 组件
 
-*   **`Listener`**: 来自 `xin.bbtt.mcbot.event.Listener` 的标记接口。实现此接口告诉 Xinbot 这个类包含事件处理方法。
-*   **`@EventHandler`**: 一个注解，用于将特定方法标记为事件处理器。当事件发生时，Xinbot 的 EventManager 会寻找带有此注解且参数为对应事件类型的方法。
-*   **`PrivateChatEvent`**: 代表来自服务器的传入私聊消息（密语）。它包含诸如发送者的 `GameProfile` 以及消息内容的 `String` 字符串等信息。
-*   **`Bot.INSTANCE`**: 主 `Bot` 类的单例实例。这是与 Xinbot 核心系统（例如发送消息、访问各种管理器或断开连接）进行交互的中央访问点。
-*   **`Bot.INSTANCE.getCommandManager().callCommand(...)`**: `CommandManager` 负责管理所有已注册的命令。使用 `callCommand` 可以直接在本地执行 Xinbot 加载的命令（例如 `help`、`plugins` 等）。
+*   **[`Listener`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/event/Listener.java)**: 来自 `xin.bbtt.mcbot.event.Listener` 的标记接口。实现此接口告诉 Xinbot 这个类包含事件处理方法。
+*   **[`@EventHandler`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/event/EventHandler.java)**: 一个注解，用于将特定方法标记为事件处理器。当事件发生时，Xinbot 的 EventManager 会寻找带有此注解且参数为对应事件类型的方法。
+*   **[`PrivateChatEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/PrivateChatEvent.java)**: 代表来自服务器的传入私聊消息（密语）。它包含诸如发送者的 `GameProfile` 以及消息内容的 `String` 字符串等信息。
+*   **[`Bot.INSTANCE`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Bot.java)**: 主 `Bot` 类的单例实例。这是与 Xinbot 核心系统（例如发送消息、访问各种管理器或断开连接）进行交互的中央访问点。
+*   **`Bot.INSTANCE.getCommandManager().callCommand(...)`**: [`CommandManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandManager.java) 负责管理所有已注册的命令。使用 `callCommand` 可以直接在本地执行 Xinbot 加载的命令（例如 `help`、`plugins` 等）。
 
 恭喜您完成了本教程！您可以阅读 [进阶 API](../index.md) 来了解命令系统等更多功能。

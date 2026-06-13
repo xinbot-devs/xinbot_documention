@@ -2,6 +2,10 @@
 
 你可以直接操作 Minecraft 原始数据包来实现高级功能。
 
+::: info 📄 源码参考
+数据包监听器的注册入口是 [`Bot#addPacketListener`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Bot.java)，Xinbot 内置的监听器示例（聊天打印、命令记录等）都在 [`listeners/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/listeners) 包，是很好的参考。
+:::
+
 ## 1. 监听数据包
 
 创建一个继承自 `SessionAdapter` 的类。**请使用 SLF4J `Logger` 记录日志。**
@@ -28,7 +32,7 @@ public class MyPacketListener extends SessionAdapter {
 
 ## 2. 发送数据包 (以重生为例)
 
-当你监听到特定事件或者收到数据包时，你可以通过传入的 `session` 参数（或者获取全局的 `Bot.Instance.getSession()`）向服务器发送数据包。
+当你监听到特定事件或者收到数据包时，你可以通过传入的 `session` 参数（或者获取全局的 `Bot.INSTANCE.getSession()`）向服务器发送数据包。
 
 下面是在事件回调中发送“重生”请求（`ServerboundClientCommandPacket`）的正确方式：
 
@@ -53,6 +57,6 @@ session.send(new ServerboundClientCommandPacket(
 ```java
 @Override
 public void onEnable() {
-    Bot.Instance.addPacketListener(new MyPacketListener(), this);
+    Bot.INSTANCE.addPacketListener(new MyPacketListener(), this);
 }
 ```

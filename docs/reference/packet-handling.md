@@ -2,6 +2,10 @@
 
 Interact with the raw Minecraft protocol to implement advanced features.
 
+::: info 📄 Source
+Packet listeners are registered through [`Bot#addPacketListener`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/Bot.java); Xinbot's own built-in listeners (chat printing, command recording, etc.) live in the [`listeners/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/listeners) package and make good references.
+:::
+
 ## 1. Listen to Packets
 
 Create a class that extends `SessionAdapter`. **Please use SLF4J `Logger` to log information.**
@@ -28,7 +32,7 @@ public class MyPacketListener extends SessionAdapter {
 
 ## 2. Sending Packets (e.g., Respawn)
 
-When you listen to a specific event or receive a packet, you can send custom packets to the server using the provided `session` parameter (or by accessing `Bot.Instance.getSession()` globally).
+When you listen to a specific event or receive a packet, you can send custom packets to the server using the provided `session` parameter (or by accessing `Bot.INSTANCE.getSession()` globally).
 
 Below is the correct way to send a "Respawn" request (`ServerboundClientCommandPacket`) inside an event callback:
 
@@ -53,6 +57,6 @@ Register the listener in your plugin's `onEnable()` hook:
 ```java
 @Override
 public void onEnable() {
-    Bot.Instance.addPacketListener(new MyPacketListener(), this);
+    Bot.INSTANCE.addPacketListener(new MyPacketListener(), this);
 }
 ```

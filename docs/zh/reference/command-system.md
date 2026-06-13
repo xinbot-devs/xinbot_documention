@@ -4,15 +4,19 @@ Xinbot 的命令行系统深度集成了 JLine，支持极佳的视觉反馈。
 
 ## 1. 执行器概述
 
-Xinbot 提供了几种抽象类来满足不同的命令需求。所有执行器最终都继承自 `CommandExecutor`。
+Xinbot 提供了几种抽象类来满足不同的命令需求。所有执行器最终都继承自 [`CommandExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandExecutor.java)。
+
+::: info 📄 源码参考
+命令相关的抽象类与运行时实现均位于 [`command/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/command) 包，其中 [`CommandManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandManager.java) 负责解析 `commands.yml` 并注册命令。
+:::
 
 | 类名 | 用途 | 需要实现的方法 |
 | :--- | :--- | :--- |
-| `CommandExecutor` | 基础命令逻辑 | `onCommand` |
-| `TabExecutor` | 添加 Tab 补全 | `onCommand`, `onTabComplete` |
-| `HighlightExecutor` | 添加语法高亮 | `onCommand`, `onHighlight` |
-| `TabHighlightExecutor` | 全功能命令 | `onCommand`, `onTabComplete`, `onHighlight` |
-| `SubCommandExecutor` | 带有子命令的复杂指令 | `registerSubCommand` |
+| [`CommandExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/CommandExecutor.java) | 基础命令逻辑 | `onCommand` |
+| [`TabExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/TabExecutor.java) | 添加 Tab 补全 | `onCommand`, `onTabComplete` |
+| [`HighlightExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/HighlightExecutor.java) | 添加语法高亮 | `onCommand`, `onHighlight` |
+| [`TabHighlightExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/TabHighlightExecutor.java) | 全功能命令 | `onCommand`, `onTabComplete`, `onHighlight` |
+| [`SubCommandExecutor`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/command/SubCommandExecutor.java) | 带有子命令的复杂指令 | `registerSubCommand` |
 
 ---
 

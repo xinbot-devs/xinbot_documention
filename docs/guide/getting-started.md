@@ -15,6 +15,16 @@ Starting from version 2.0.0, Xinbot requires a **MetaPlugin** to handle server-s
    Check our [**Plugin List**](./plugin-list) to find a plugin compatible with your server.
    Place the downloaded MetaPlugin JAR into the `plugin` folder (which you can configure in step 3).
 
+::: tip 📦 One-step install with a modpack
+Don't want to download and place plugins one by one? If you have a **modpack** `.zip`, you can install everything with a single command (since 2.3.0):
+
+```bash
+java -jar xinbot-[VERSION].jar --install <modpack.zip>
+```
+
+It installs the bundled plugins and language files into `plugin/` and `lang/`. A modpack never contains `config.conf`, so you still need to complete the configuration steps below. See [Usage Guide · Modpacks](./usage#_4-modpacks-since-2-3-0) for details.
+:::
+
 ## 2. Install Java
 
 Xinbot requires **Java 17** or newer to run.

@@ -17,4 +17,4 @@
 ### 💡 开发建议
 *   **Java 版本**：建议使用 Java 17 或更高版本。
 *   **依赖管理**：推荐使用 Maven 或 Gradle 进行项目构建。
-*   **源码学习**：阅读 Xinbot 源码中的现有插件基础设施，或者参考官方开源插件如 [MovementSync](https://github.com/huangdihd/movementsync) 的源码是最好的进阶方式。
+*   **源码学习**：阅读 [Xinbot 源码](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot)中的现有插件基础设施，或者参考官方开源插件如 [MovementSync](https://github.com/huangdihd/movementsync) 的源码是最好的进阶方式。

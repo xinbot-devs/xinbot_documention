@@ -43,11 +43,11 @@ public class OwnerPMPlugin implements Plugin {
 
 ## Xinbot Components Used
 
-*   **`Plugin`**: The core interface (`xin.bbtt.mcbot.plugin.Plugin`) that all Xinbot plugins must implement. It defines lifecycle hooks such as `onLoad`, `onEnable`, `onDisable`, and `onUnload` that Xinbot calls at specific times.
+*   **[`Plugin`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/Plugin.java)**: The core interface (`xin.bbtt.mcbot.plugin.Plugin`) that all Xinbot plugins must implement. It defines lifecycle hooks such as `onLoad`, `onEnable`, `onDisable`, and `onUnload` that Xinbot calls at specific times.
 *   **`onEnable()`**: This lifecycle method is called when Xinbot is fully connected and ready to enable plugins. This is the standard place to register listeners and commands, or initialize repeating tasks.
 *   **`Bot.INSTANCE.getPluginManager().events().registerEvents(...)`**: 
-    *   `getPluginManager()` retrieves the `PluginManager`, which oversees all loaded plugins.
-    *   `.events()` accesses the `EventManager` (part of the plugin manager).
+    *   `getPluginManager()` retrieves the [`PluginManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/plugin/PluginManager.java), which oversees all loaded plugins.
+    *   `.events()` accesses the [`EventManager`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/event/EventManager.java) (part of the plugin manager).
     *   `registerEvents(listener, this)` instructs the EventManager to scan the provided `listener` object for `@EventHandler` methods and register them under the context of `this` plugin.
 
 Next, we will create the listener class in the [Next Step: Writing the Listener](./listener.md).

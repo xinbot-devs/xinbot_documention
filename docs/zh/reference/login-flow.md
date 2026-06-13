@@ -2,6 +2,10 @@
 
 LoginFlow 是一个声明式的、基于 Builder 的状态机，专为 MetaPlugin 设计。它用简洁的链式 API 替代了分散的 `SessionAdapter` 监听器和静态 boolean 标志。
 
+::: info 📄 源码参考
+状态机与构建器位于 [`LoginFlow/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/LoginFlow) 包（[`LoginFlow`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/LoginFlow/LoginFlow.java)、[`LoginFlowBuilder`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/LoginFlow/LoginFlowBuilder.java)、[`LoginFlowStep`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/LoginFlow/LoginFlowStep.java)）；相关命令事件（[`SendCommandEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/SendCommandEvent.java)、[`SendLoginCommandEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/SendLoginCommandEvent.java)、[`SendRegisterCommandEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/SendRegisterCommandEvent.java)、[`LoginFlowEvent`](https://github.com/huangdihd/xinbot/blob/master/src/main/java/xin/bbtt/mcbot/events/LoginFlowEvent.java)）位于 [`events/`](https://github.com/huangdihd/xinbot/tree/master/src/main/java/xin/bbtt/mcbot/events) 包。
+:::
+
 ## 1. 为什么需要 LoginFlow？
 
 **使用前** — 每个登录步骤是独立的监听器，状态隐式传递：
