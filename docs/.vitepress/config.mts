@@ -9,7 +9,7 @@ export default defineConfig({
   lastUpdated: true,
   sitemap: { hostname: SITE_URL },
   head: [
-    ['link', { rel: 'icon', href: '/xinbot-logo.png' }],
+    ['link', { rel: 'icon', href: '/xinbot-logo.svg' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'Xinbot' }],
     ['meta', { property: 'og:image', content: OG_IMAGE }],
@@ -184,7 +184,7 @@ export default defineConfig({
   },
 
   themeConfig: {
-    logo: '/xinbot-logo.png',
+    logo: '/xinbot-logo.svg',
     socialLinks: [
       { icon: 'github', link: 'https://github.com/huangdihd/xinbot' },
       { icon: 'telegram', link: 'https://t.me/xinbot_develop' }
