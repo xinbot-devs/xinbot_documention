@@ -17,16 +17,16 @@ hero:
       link: https://github.com/huangdihd/xinbot
 
 features:
-  - title: 🌈 Vibrant Logs
+  - title: Vibrant Logs
     details: Parse and render messages just like the official client with full color support.
     icon: 🖍️
-  - title: 🔐 Secure Login
+  - title: Secure Login
     details: Opt-in official account login with a guided Microsoft authorization flow.
     icon: 🛡️
-  - title: 🧩 Plugin-First
+  - title: Plugin-First
     details: Bukkit-style event system to load, unload, or reload features without restarting.
     icon: ⚙️
-  - title: 🚀 Ready to Run
+  - title: Ready to Run
     details: Single JAR, clear HOCON config, and a fast startup experience.
     icon: ⚡
 ---

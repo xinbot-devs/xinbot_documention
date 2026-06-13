@@ -1,16 +1,16 @@
 {
   "name": "xinbot_documention",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": ["xinbot", "minecraft", "bot", "documentation", "vitepress"],
+  "author": "huangdihd",
+  "license": "GPL-3.0",
+  "description": "Official documentation for Xinbot, a lightweight and extensible Minecraft bot client for Anarchy servers.",
   "devDependencies": {
     "vitepress": "^1.6.4",
     "vue": "^3.5.32"

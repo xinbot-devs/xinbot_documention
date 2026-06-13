@@ -3,3 +3,4 @@ docs/.vitepress/dist
 docs/.vitepress/cache
 xinbot_src
 .DS_Store
+.idea/

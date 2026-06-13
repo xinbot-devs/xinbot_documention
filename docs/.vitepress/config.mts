@@ -1,10 +1,33 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig, type HeadConfig } from 'vitepress'
+
+const SITE_URL = 'https://xinbot.shouldbe.top'
+const OG_IMAGE = `${SITE_URL}/xinbot-logo.png`
 
 export default defineConfig({
   title: "Xinbot",
   description: "A lightweight, extensible Minecraft bot client built for Anarchy Servers",
-  head: [['link', { rel: 'icon', href: '/xinbot-logo.png' }]],
-  
+  lastUpdated: true,
+  sitemap: { hostname: SITE_URL },
+  head: [
+    ['link', { rel: 'icon', href: '/xinbot-logo.png' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'Xinbot' }],
+    ['meta', { property: 'og:image', content: OG_IMAGE }],
+    ['meta', { name: 'twitter:card', content: 'summary' }],
+    ['meta', { name: 'twitter:image', content: OG_IMAGE }]
+  ],
+
+  // Inject per-page Open Graph title/description for richer link previews
+  transformHead({ pageData, siteData }) {
+    const head: HeadConfig[] = []
+    const title = pageData.frontmatter.title || pageData.title || siteData.title
+    const description =
+      pageData.frontmatter.description || pageData.description || siteData.description
+    head.push(['meta', { property: 'og:title', content: title }])
+    head.push(['meta', { property: 'og:description', content: description }])
+    return head
+  },
+
   // Multi-language configuration
   locales: {
     root: {
@@ -83,6 +106,7 @@ export default defineConfig({
       label: '简体中文',
       lang: 'zh-CN',
       link: '/zh/',
+      description: '轻量、可扩展的 Minecraft 机器人客户端，专为无政府服务器打造',
       themeConfig: {
         nav: [
           { text: '首页', link: '/zh/' },
@@ -90,6 +114,7 @@ export default defineConfig({
           { text: '插件开发', link: '/zh/reference/' }
         ],
         langMenuLabel: '切换语言',
+        lastUpdatedText: '最后更新于',
         darkModeSwitchLabel: '外观',
         lightModeSwitchTitle: '切换到浅色模式',
         darkModeSwitchTitle: '切换到深色模式',
@@ -169,7 +194,34 @@ export default defineConfig({
       copyright: 'Copyright © 2024-present huangdihd'
     },
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        locales: {
+          zh: {
+            translations: {
+              button: {
+                buttonText: '搜索文档',
+                buttonAriaLabel: '搜索文档'
+              },
+              modal: {
+                displayDetails: '显示详细列表',
+                resetButtonTitle: '清除查询条件',
+                backButtonTitle: '关闭搜索',
+                noResultsText: '无法找到相关结果',
+                footer: {
+                  selectText: '选择',
+                  selectKeyAriaLabel: '回车',
+                  navigateText: '切换',
+                  navigateUpKeyAriaLabel: '上箭头',
+                  navigateDownKeyAriaLabel: '下箭头',
+                  closeText: '关闭',
+                  closeKeyAriaLabel: 'esc'
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 })
