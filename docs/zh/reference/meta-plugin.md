@@ -101,6 +101,22 @@ type: META_PLUGIN
 
 *注：服务器断线处理及自动重连（Auto-Reconnect）机制由 Xinbot 核心统一接管，无需在元插件中处理。*
 
+## 5. 跨版本支持 (Cross-Version)
+
+Xinbot 核心固定使用某一特定 Minecraft 协议版本与服务器通信。如果目标服务器运行的版本与之不同，元插件可以承担**跨版本协议转换**的职责——在网络层注入 [ViaVersion](https://github.com/ViaVersion/ViaVersion) / [ViaBackwards](https://github.com/ViaVersion/ViaBackwards)，在 Bot 的协议版本与服务器的协议版本之间实时翻译数据包。
+
+由于元插件能够直接拿到底层的 Netty `Channel`，它非常适合完成这类工作。典型做法是：
+
+1.  **`onLoad()`**：初始化 ViaVersion 的 `ViaManager`（提供自定义的 `ViaPlatform` / `Injector` 实现），并按需初始化 ViaBackwards。
+2.  **`onEnable()`**：拦截首个发出的数据包以拿到已建立的 `Channel`，随后构造 `UserConnection`，设置 Bot 端协议版本（`setProtocolVersion`）与服务器端协议版本（`setServerProtocolVersion`），并向 `Channel` 的 pipeline 中（`codec` 之前）插入 `via-decoder` 与 `via-encoder` 两个处理器。
+3.  **`onDisable()`**：在 `Channel` 的事件循环中移除上述 via 处理器，清理 `UserConnection`，避免污染下一次连接。
+
+这样一来，所有普通插件都可以继续按 Bot 核心的协议版本编写逻辑，完全无需关心服务器的真实版本。
+
+你可以参考 [4d4vMetaPlugin](https://github.com/huangdihd/4d4vMetaPlugin) 仓库，了解一个将 ViaVersion / ViaBackwards 集成进元插件、为 `4d4v.top` 实现跨版本连接的完整示例。
+
+## 6. 参考实现
+
 你可以参考官方的 [xinMetaPlugin](https://github.com/huangdihd/xinMetaPlugin) 仓库，了解一个专门为 `2b2t.xin` 服务器设计的元插件的完整实现。
 
 查看更多社区提供的插件：[插件列表](../guide/plugin-list.md)

@@ -102,6 +102,22 @@ The main purpose of a MetaPlugin is to encapsulate logic that is unique to a spe
 
 *Note: Disconnection handling and auto-reconnecting are managed by the Xinbot Core itself, not the MetaPlugin.*
 
+## 5. Cross-Version Support
+
+The Xinbot Core talks to the server using one fixed Minecraft protocol version. When the target server runs a different version, a MetaPlugin can take on the job of **cross-version protocol translation** — injecting [ViaVersion](https://github.com/ViaVersion/ViaVersion) / [ViaBackwards](https://github.com/ViaVersion/ViaBackwards) at the network layer to translate packets on the fly between the bot's protocol version and the server's.
+
+Because a MetaPlugin has direct access to the underlying Netty `Channel`, it is the ideal place to do this. A typical setup looks like:
+
+1.  **`onLoad()`**: Initialize ViaVersion's `ViaManager` (with custom `ViaPlatform` / `Injector` implementations) and, if needed, ViaBackwards.
+2.  **`onEnable()`**: Intercept the first outgoing packet to grab the established `Channel`, then build a `UserConnection`, set the bot-side protocol version (`setProtocolVersion`) and the server-side protocol version (`setServerProtocolVersion`), and insert `via-decoder` and `via-encoder` handlers into the `Channel` pipeline (before `codec`).
+3.  **`onDisable()`**: Remove those via handlers on the `Channel`'s event loop and clean up the `UserConnection` so the next connection starts clean.
+
+With this in place, every regular plugin can keep targeting the Core's protocol version and never has to care about the server's actual version.
+
+Refer to the [4d4vMetaPlugin](https://github.com/huangdihd/4d4vMetaPlugin) repository for a complete example that integrates ViaVersion / ViaBackwards into a MetaPlugin to connect to `4d4v.top` across versions.
+
+## 6. Reference Implementation
+
 You can refer to the official [xinMetaPlugin](https://github.com/huangdihd/xinMetaPlugin) repository to see a complete implementation of a MetaPlugin designed for the `2b2t.xin` server.
 
 See more community Plugins: [Plugin List](../guide/plugin-list.md)
