@@ -107,17 +107,40 @@ type: META_PLUGIN
 
 ## 5. 跨版本支持 (Cross-Version)
 
-Xinbot 核心固定使用某一特定 Minecraft 协议版本与服务器通信。如果目标服务器运行的版本与之不同，元插件可以承担**跨版本协议转换**的职责——在网络层注入 [ViaVersion](https://github.com/ViaVersion/ViaVersion) / [ViaBackwards](https://github.com/ViaVersion/ViaBackwards)，在 Bot 的协议版本与服务器的协议版本之间实时翻译数据包。
+Xinbot 核心固定使用某一特定 Minecraft 协议版本与服务器通信。如果目标服务器运行的版本与之不同，可以在网络层注入 [ViaVersion](https://github.com/ViaVersion/ViaVersion) / [ViaBackwards](https://github.com/ViaVersion/ViaBackwards)，在 Bot 的协议版本与服务器的协议版本之间实时翻译数据包。
 
-由于元插件能够直接拿到底层的 Netty `Channel`，它非常适合完成这类工作。典型做法是：
+为此，官方提供了库插件 [XinVia](https://github.com/huangdihd/XinVia)（`type: PLUGIN`）。它已经封装好 ViaVersion / ViaBackwards 的初始化，并对外暴露 `XinViaProvider`。元插件无需再自行编写 `ViaPlatform` / `Injector` 等一系列样板代码——只需声明依赖，并在合适的时机调用即可。
 
-1.  **`onLoad()`**：初始化 ViaVersion 的 `ViaManager`（提供自定义的 `ViaPlatform` / `Injector` 实现），并按需初始化 ViaBackwards。
-2.  **`onEnable()`**：拦截首个发出的数据包以拿到已建立的 `Channel`，随后构造 `UserConnection`，设置 Bot 端协议版本（`setProtocolVersion`）与服务器端协议版本（`setServerProtocolVersion`），并向 `Channel` 的 pipeline 中（`codec` 之前）插入 `via-decoder` 与 `via-encoder` 两个处理器。
-3.  **`onDisable()`**：在 `Channel` 的事件循环中移除上述 via 处理器，清理 `UserConnection`，避免污染下一次连接。
+**1. 声明依赖**
+
+在 `plugin.yml` 中声明 `depend`，让核心先加载 XinVia 并打通类加载器链：
+
+```yaml
+depend:
+  - XinVia
+```
+
+并在 `pom.xml` 中通过 JitPack 引入（作用域 `provided`，运行时由 XinVia 插件提供）：
+
+```xml
+<dependency>
+    <groupId>com.github.huangdihd</groupId>
+    <artifactId>XinVia</artifactId>
+    <version>1.0.0-RELEASE</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+**2. 安装 / 移除编解码器**
+
+1.  **`onEnable()`**：拦截首个发出的数据包以拿到已建立的 `Channel`，随后调用 `XinViaProvider.setup(channel, 客户端协议版本, 服务器协议版本, uuid)`。该方法会构造 `UserConnection` 并向 `Channel` 的 pipeline 中（`codec` 之前）插入 `via-decoder` 与 `via-encoder` 两个处理器；自行持有返回的 `UserConnection` 以备后用。
+2.  **`onDisable()`**：调用 `XinViaProvider.teardown(channel, userConnection)`，移除上述处理器并清理连接，避免污染下一次连接。
+
+协议版本作为参数传入，因此每个元插件都能自行决定要在哪两个版本之间桥接。
 
 这样一来，所有普通插件都可以继续按 Bot 核心的协议版本编写逻辑，完全无需关心服务器的真实版本。
 
-你可以参考 [4d4vMetaPlugin](https://github.com/huangdihd/4d4vMetaPlugin) 仓库，了解一个将 ViaVersion / ViaBackwards 集成进元插件、为 `4d4v.top` 实现跨版本连接的完整示例。
+你可以参考 [4d4vMetaPlugin](https://github.com/huangdihd/4d4vMetaPlugin) 仓库，了解一个依赖 XinVia、为 `4d4v.top` 实现跨版本连接的完整示例。
 
 ## 6. 参考实现
 

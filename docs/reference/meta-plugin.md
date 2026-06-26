@@ -108,17 +108,40 @@ The main purpose of a MetaPlugin is to encapsulate logic that is unique to a spe
 
 ## 5. Cross-Version Support
 
-The Xinbot Core talks to the server using one fixed Minecraft protocol version. When the target server runs a different version, a MetaPlugin can take on the job of **cross-version protocol translation** — injecting [ViaVersion](https://github.com/ViaVersion/ViaVersion) / [ViaBackwards](https://github.com/ViaVersion/ViaBackwards) at the network layer to translate packets on the fly between the bot's protocol version and the server's.
+The Xinbot Core talks to the server using one fixed Minecraft protocol version. When the target server runs a different version, you can inject [ViaVersion](https://github.com/ViaVersion/ViaVersion) / [ViaBackwards](https://github.com/ViaVersion/ViaBackwards) at the network layer to translate packets on the fly between the bot's protocol version and the server's.
 
-Because a MetaPlugin has direct access to the underlying Netty `Channel`, it is the ideal place to do this. A typical setup looks like:
+For this there is an official library plugin, [XinVia](https://github.com/huangdihd/XinVia) (`type: PLUGIN`). It already wraps the ViaVersion / ViaBackwards bootstrap and exposes `XinViaProvider`, so a MetaPlugin no longer has to write its own `ViaPlatform` / `Injector` boilerplate — it only has to declare the dependency and call the provider at the right time.
 
-1.  **`onLoad()`**: Initialize ViaVersion's `ViaManager` (with custom `ViaPlatform` / `Injector` implementations) and, if needed, ViaBackwards.
-2.  **`onEnable()`**: Intercept the first outgoing packet to grab the established `Channel`, then build a `UserConnection`, set the bot-side protocol version (`setProtocolVersion`) and the server-side protocol version (`setServerProtocolVersion`), and insert `via-decoder` and `via-encoder` handlers into the `Channel` pipeline (before `codec`).
-3.  **`onDisable()`**: Remove those via handlers on the `Channel`'s event loop and clean up the `UserConnection` so the next connection starts clean.
+**1. Declare the dependency**
+
+Add `depend` in `plugin.yml` so the Core loads XinVia first and wires up the classloader chain:
+
+```yaml
+depend:
+  - XinVia
+```
+
+And pull it in via JitPack in `pom.xml` (scope `provided` — it is supplied at runtime by the XinVia plugin):
+
+```xml
+<dependency>
+    <groupId>com.github.huangdihd</groupId>
+    <artifactId>XinVia</artifactId>
+    <version>1.0.0-RELEASE</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+**2. Install / remove the codecs**
+
+1.  **`onEnable()`**: Intercept the first outgoing packet to grab the established `Channel`, then call `XinViaProvider.setup(channel, clientVersion, serverVersion, uuid)`. It builds the `UserConnection` and inserts the `via-decoder` and `via-encoder` handlers into the `Channel` pipeline (before `codec`); keep the returned `UserConnection` for later.
+2.  **`onDisable()`**: Call `XinViaProvider.teardown(channel, userConnection)` to remove those handlers and clean up the connection so the next connection starts clean.
+
+The protocol versions are parameters, so each MetaPlugin decides which two versions to bridge.
 
 With this in place, every regular plugin can keep targeting the Core's protocol version and never has to care about the server's actual version.
 
-Refer to the [4d4vMetaPlugin](https://github.com/huangdihd/4d4vMetaPlugin) repository for a complete example that integrates ViaVersion / ViaBackwards into a MetaPlugin to connect to `4d4v.top` across versions.
+Refer to the [4d4vMetaPlugin](https://github.com/huangdihd/4d4vMetaPlugin) repository for a complete example that depends on XinVia to connect to `4d4v.top` across versions.
 
 ## 6. Reference Implementation
 
