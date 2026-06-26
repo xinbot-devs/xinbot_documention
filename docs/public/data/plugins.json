@@ -119,5 +119,13 @@
     "owner": "huangdihd",
     "url": "https://github.com/huangdihd/MovementMCP",
     "desc": "Exposes movement/perception/action tools via MCP protocol "
+  },
+  {
+    "name": "XinVia",
+    "type": "PLUGIN",
+    "servers": "",
+    "owner": "huangdihd",
+    "url": "https://github.com/huangdihd/XinVia",
+    "desc": "ViaVersion / ViaBackwards integration library plugin for xinbot meta plugins. It bootstraps ViaVersion/ViaBackwards and exposes `XinViaProvider`, so a meta plugin can add cross-version protocol support by depending on XinVia and calling `XinViaProvider.setup`/`teardown`, instead of bundling ViaVersion itself. "
   }
 ]
